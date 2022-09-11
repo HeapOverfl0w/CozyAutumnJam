@@ -6,19 +6,21 @@ const BASE_URL = "http://localhost:5000";
 
 //resources
 const HOME_BACKDROP = document.getElementById('homebackdrop');
+const CRAFT_BACKDROP = document.getElementById('craftbackdrop');
 
-const CRAFT_SPRITE_LOCATIONS = {};
-const CRAFT_SPRITE_SIZES = {};
+const MATERIAL_SPRITES = {};
+MATERIAL_SPRITES['stick'] = document.getElementById('stick');
 
 const CHANGE_CANVAS_RESOLTUION = function (width, height) {
     let canvas = document.getElementById('scene');
+    let navbar = document.getElementById('navbar');
     canvas.width = width;
     canvas.height = height;
 
     let aspectRatio = canvas.width / canvas.height;
-    let width = window.innerWidth;
+    width = window.innerWidth;
     if (window.innerWidth / aspectRatio > window.innerHeight) {
-    width = window.innerHeight * aspectRatio;
+        width = (window.innerHeight - navbar.clientHeight) * aspectRatio;
     }
     canvas.style.width = width + "px";
     canvas.style.height = width / aspectRatio + "px";

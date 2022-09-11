@@ -2,9 +2,13 @@
 <html>
   <head>
     <link rel="stylesheet" href="login.css" type="text/css">
+    <link rel="stylesheet" href="style.css" type="text/css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   </head>
   <body>
+    <div style="display:none">
+      <img id="homebackdrop" src="./game/rsc/homebackdrop.png" />
+    </div>
     <!-- The Modal -->
     <div id="myModal" class="modal">
       <!-- Modal content -->
@@ -39,16 +43,29 @@
     </div>
     <div id="gamePage" class="gamePage">
       <div id="navbar" class="topnav">
-        <button id="logoutBtn" class="logout">LOGOUT</button>
       </div>
-      <canvas id="scene"></canvas>
-      <div class="sidepanel">
-        <ul id="menulist" style="overflow:auto"></ul>
-      </div>
+      <table>
+        <tr>
+          <td>
+            <canvas id="scene"></canvas>
+          </td>
+          <td id="sidepanel">
+            <ul id="menulist" style="list-style-type:none;overflow: auto"></ul>
+            <input id="chatbox" maxlength="100"/>
+          </td>
+        </tr>
+      </table>
     </div>
   </body>
-  <script src='identityagent.js'></script>
-  <script src='lib/vanilla-toast.min.js'></script>
+  <script src='./identityagent.js'></script>
+  <script src='./lib/vanilla-toast.min.js'></script>
+  <script src='./game/vector2d.js'></script>
+  <script src="./game/consts.js"></script>
+  <script src="./game/client.js"></script>
+  <script src="./game/home.js"></script>
+  <script src="./game/crafts.js"></script>
+  <script src="./game/createcraft.js"></script>
+  <script src="./game/main.js"></script>
   <script>
     // Get the controls
     var lgnForm = document.getElementById("lgnForm");
@@ -60,7 +77,7 @@
     var regBtn = document.getElementById("regBtn");
     var cnclBtn = document.getElementById("cnclBtn");
   
-    var logoutBtn = document.getElementById("logoutBtn");
+    //var logoutBtn = document.getElementById("logoutBtn");
 
     var userData = undefined;
 
@@ -72,7 +89,6 @@
           identity.clearToken();
         } else {
           userData = response;
-          userData.gameData = JSON.parse(userData.gameData);
           modal.style.display = "none";
           gamePage.style.display = "block";
           startGame();
@@ -143,7 +159,7 @@
       gamePage.style.display = "none";
     }
 
-    logoutBtn.onclick = function() {
+    logoutCallback = function() {
       identity.clearToken();
       regForm.style.display = "none";
       gamePage.style.display = "none";   
@@ -154,13 +170,11 @@
     var cvs = document.getElementById("scene");
     var ctx = cvs.getContext("2d");
     ctx.imageSmoothingEnabled = false;
-    var main;
+    var menu;
     var gameTimer;
 
-    var startGame = function() {
-      
-      
-      menu = new Menu(userData, identity, logoutCallback);
+    var startGame = function() {      
+      menu = new Main(userData, identity, logoutCallback);
       gameTimer = window.setInterval((menu) => {
         if (menu !== undefined) {
           menu.draw(ctx);
@@ -171,6 +185,11 @@
     window.onkeyup = function (event) {
       if (menu !== undefined)
         menu.onKeyUp(event.keyCode);
+    };
+
+    window.onkeydown = function (event) {
+      if (menu !== undefined)
+        menu.onKeyDown(event.keyCode);
     };
 
     cvs.addEventListener('mousemove', function(event){

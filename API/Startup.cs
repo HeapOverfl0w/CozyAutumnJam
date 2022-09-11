@@ -63,7 +63,7 @@ namespace API
 
             //Create the timer service for checking if searching through the woods is over
             var opt = new DbContextOptionsBuilder().UseSqlite(_config.GetConnectionString("DefaultConnection")).Options;
-            services.AddSingleton<WoodsSearchService>(new WoodsSearchService(new DataContext(opt), new MaterialService()));
+            services.AddSingleton<WoodsSearchService>(new WoodsSearchService(opt, new MaterialService()));
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.

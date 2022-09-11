@@ -105,7 +105,7 @@ namespace API.Controllers
                 return Unauthorized();
             }
 
-            craftItem.IsForSale = !craftItem.IsForSale;
+            craftItem.IsForSale = price > 0;
             craftItem.Price = price;
 
             _dataContext.SaveChanges();

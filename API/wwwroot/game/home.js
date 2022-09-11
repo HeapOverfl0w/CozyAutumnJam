@@ -72,6 +72,12 @@ class Home {
             navBar.removeChild(navBar.firstChild);
         }
 
+        let menulist = document.getElementById('menulist');
+
+        while(menulist.firstChild) {
+            menulist.removeChild(menulist.firstChild);
+        }
+
         let button = document.createElement("button");
         let text = document.createTextNode("LOGOUT");
         button.appendChild(text);
@@ -90,7 +96,7 @@ class Home {
         text = document.createTextNode("CREATE CRAFT");
         button.appendChild(text);
         button.id = "createCraftBtn";
-        button.onclick = this.createCraft;
+        button.onclick = this.createCraft.bind(this);
         navBar.appendChild(button);
 
         button = document.createElement("button");

@@ -9,8 +9,14 @@ class Main {
 
         this.home = new Home(userData, this.client, logoutCallback, 
             this.craftsCallback.bind(this), this.buyCallback.bind(this), this.createCraftCallback.bind(this));
-        this.createCraft = new CreateCraft(userData, this.client, this.homeCallback.bind(this));
+        this.createCraft = new CreateCraft(userData, this.client, this.homeCallback.bind(this), this.craftsCallback.bind(this));
         this.home.setVisible(true);
+        this.crafts = {
+            setVisible : function() {}
+        };
+        this.buy = {
+            setVisible : function() {}
+        };
         this.activePage = this.home;
     }
 

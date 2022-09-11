@@ -18,6 +18,48 @@ html, body, canvas {
   border: 10px solid gray;
 }
 
+.materialUl {
+  overflow: hidden;
+  background-color: black;
+  color: white;
+  vertical-align: top;
+  width: 99%;
+  height: 70%;
+  border: 10px solid gray;
+}
+
+.materialLi {
+  border-radius: 3;
+  border: 3px solid gray;
+  background-color: black;
+  color: white;
+  width: 99%
+}
+
+.selectedMaterialLi {
+  border-radius: 3;
+  border: 3px solid gray;
+  background-color: red;
+  color: white;
+  width: 99%
+}
+
+.craftLi {
+  border-radius: 3;
+  border: 3px solid gray;
+  background-color: black;
+  color: white;
+  width: 99%
+}
+
+.selectedCraftLi {
+  border-radius: 3;
+  border: 3px solid gray;
+  background-color: red;
+  color: white;
+  width: 99%
+}
+
 #chatbox {
   position: absolute;
   width: 300px;

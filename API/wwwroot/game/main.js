@@ -11,16 +11,13 @@ class Main {
             this.craftsCallback.bind(this), this.buyCallback.bind(this), this.createCraftCallback.bind(this));
         this.createCraft = new CreateCraft(userData, this.client, this.homeCallback.bind(this), this.craftsCallback.bind(this));
         this.home.setVisible(true);
-        this.crafts = {
-            setVisible : function() {}
-        };
-        this.buy = {
-            setVisible : function() {}
-        };
+        this.crafts = new Crafts(userData, this.client, this.homeCallback.bind(this));
+        this.buy = new BuyCrafts(userData, this.client, this.homeCallback.bind(this));
         this.activePage = this.home;
     }
 
     changeUserData() {
+        SET_IMAGES_ON_USER_DATA(this.userData);
         this.userData.playerData.lastWoodsSearch = new Date(this.userData.playerData.lastWoodsSearch);
     }
 
@@ -41,6 +38,14 @@ class Main {
     }
 
     homeCallback() {
+        this.home.setVisible(true);
+        this.crafts.setVisible(false);
+        this.buy.setVisible(false);
+        this.createCraft.setVisible(false);
+        this.activePage = this.home;
+    }
+
+    placeCraftCallback() {
         this.home.setVisible(true);
         this.crafts.setVisible(false);
         this.buy.setVisible(false);

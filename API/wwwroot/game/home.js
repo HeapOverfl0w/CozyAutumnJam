@@ -56,7 +56,7 @@ class Home {
         this.visible = isVisible;
 
         if (this.visible) {
-            this.setMenuOptions();
+            this.setupMenuOptions();
             if (!this.searchWoodsTimer) {
                 this.setupSearchWoodsTimeout();
             }
@@ -65,7 +65,7 @@ class Home {
         }
     }
 
-    setMenuOptions() {
+    setupMenuOptions() {
         let navBar = document.getElementById('navbar');
 
         while(navBar.firstChild) {
@@ -119,7 +119,7 @@ class Home {
 
     searchWoodsCallback() {
         if (!this.userData.playerData.isSearchingWoods) {
-            if (this.calculateMaterialCount() >= 300) {
+            if (this.calculateMaterialCount() <= 300) {
                 this.client.searchWoods()
                 .then(() => {
                     this.userData.playerData.isSearchingWoods = true;
@@ -135,7 +135,9 @@ class Home {
     calculateMaterialCount() {
         let returnValue = 0;
         for (const [key, value] of Object.entries(this.userData.playerData.materials)) {
-            returnValue += value;
+            if (key !== "id") {
+                returnValue += value;
+            }
         }
         return returnValue;
     }
@@ -180,11 +182,10 @@ class Home {
             //draw backdrop
             ctx.drawImage(HOME_BACKDROP, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-            for (let i = 0; i < this.userData.crafts; i++) {
+            for (let i = 0; i < this.userData.crafts.length; i++) {
                 let craft = this.userData.crafts[i];
-                if (craft.placedX > -1 && craft.placedY > -1) {
-                    //TODO
-                    //ctx.drawImage()
+                if (craft.placedX > -5000 && craft.placedY > -5000) {
+                    ctx.drawImage(craft.image, craft.placedX, craft.placedY);
                 }
             }
         }

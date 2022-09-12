@@ -53,6 +53,7 @@ namespace API.Controllers
                     PlayerData = user.PlayerData,
                     Token = _tokenService.CreateToken(user),
                     UserName = user.UserName,
+                    Id = userId,
                     Crafts = crafts
                 };
             }
@@ -93,7 +94,9 @@ namespace API.Controllers
                 {
                     PlayerData = user.PlayerData,
                     Token = _tokenService.CreateToken(user),
-                    UserName = user.UserName
+                    Id = new Guid(user.Id),
+                    UserName = user.UserName,
+                    Crafts = new List<Craft>()
                 };
             }
 
@@ -121,6 +124,7 @@ namespace API.Controllers
                 PlayerData = user.PlayerData,
                 Token = _tokenService.CreateToken(user),
                 UserName = user.UserName,
+                Id = userId,
                 Crafts = crafts
             };
         }

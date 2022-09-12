@@ -25,3 +25,21 @@ const CHANGE_CANVAS_RESOLTUION = function (width, height) {
     canvas.style.width = width + "px";
     canvas.style.height = width / aspectRatio + "px";
 }
+
+const TURN_BASE64_TO_IMAGE = function (base64) {
+    let image = new Image();
+    image.src = base64;
+    return image;
+}
+
+const SET_IMAGES_ON_USER_DATA = function (userData) {
+    for(let i = 0; i < userData.crafts.length; i++) {
+        userData.crafts[i].image = TURN_BASE64_TO_IMAGE(userData.crafts[i].data);
+    }
+}
+
+const SET_IMAGES_ON_CRAFTS_LIST = function (crafts) {
+    for(let i = 0; i < crafts.length; i++) {
+        crafts[i].image = TURN_BASE64_TO_IMAGE(crafts[i].data);
+    }
+}

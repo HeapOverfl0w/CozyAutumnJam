@@ -28,7 +28,7 @@ class CreateCraft {
     createMaterialsModel() {
         this.materials = [];
         for (const [key, value] of Object.entries(this.userData.playerData.materials)) {
-            if (value > 0) {
+            if (key != "id" && value > 0) {
                 const materialName = key.replace(/([A-Z])/g, ' $1').trim().toUpperCase();
                 let material = {
                     name : materialName,
@@ -86,6 +86,7 @@ class CreateCraft {
         this.client.createCraft("TODO", canvas.toDataURL(), materialsUsed)
             .then(response => response.json())
             .then(craft => {
+                craft.image = TURN_BASE64_TO_IMAGE(craft.data);
                 this.userData.crafts.unshift(craft);
                 //TODO: change this to switch to crafts
                 this.craftsCallback();

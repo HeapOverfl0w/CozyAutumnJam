@@ -54,7 +54,7 @@ class Client {
 
     buyCraft(craft) {
         return fetch(BASE_URL + `/api/game/buy?craft=${craft.id}`,{
-            method: 'GET',
+            method: 'PUT',
             headers: this.createHeaders()
         })
         .catch(error => {

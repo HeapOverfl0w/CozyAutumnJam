@@ -49,6 +49,7 @@ namespace API.Controllers
             {
                 PlayerData = user.PlayerData,
                 UserName = user.UserName,
+                Id = userId,
                 Crafts = crafts
             });
         }
@@ -83,11 +84,13 @@ namespace API.Controllers
             }
 
             user.PlayerData.Money -= craftItem.Price;
-            craftItem.Owner = user.PlayerData.Id;
+            craftItem.Owner = new Guid(user.Id);
+            craftItem.IsForSale = false;
+            craftItem.Price = 0;
 
             _dataContext.SaveChanges();
 
-            return Ok(craft);
+            return Ok(craftItem);
         }
 
         [Authorize]
@@ -100,9 +103,9 @@ namespace API.Controllers
             .FirstOrDefaultAsync(user => user.UserName == userName);
             var craftItem = await _dataContext.Crafts.FirstAsync((item) => item.Id == craft);
 
-            if (user.PlayerData.Id != craftItem.Owner)
+            if (new Guid(user.Id) != craftItem.Owner)
             {
-                return Unauthorized();
+                return Unauthorized("You do not own that craft.");
             }
 
             craftItem.IsForSale = price > 0;
@@ -123,9 +126,9 @@ namespace API.Controllers
             .FirstOrDefaultAsync(user => user.UserName == userName);
             var craftItem = await _dataContext.Crafts.FirstAsync((item) => item.Id == craft);
 
-            if (user.PlayerData.Id != craftItem.Owner)
+            if (new Guid(user.Id) != craftItem.Owner)
             {
-                return Unauthorized();
+                return Unauthorized("You do not own that craft.");
             }
 
             _dataContext.Crafts.Remove(craftItem);
@@ -137,21 +140,21 @@ namespace API.Controllers
 
         [Authorize]
         [HttpPut("place")]
-        public async Task<ActionResult> PlaceCraft([FromQuery]Guid item, [FromQuery]int x, [FromQuery]int y)
+        public async Task<ActionResult> PlaceCraft([FromQuery]Guid craft, [FromQuery]int x, [FromQuery]int y)
         {
             var userName = User.FindFirstValue(ClaimTypes.Name);
             var user = await _dataContext.Users
             .Include(user => user.PlayerData)
             .FirstOrDefaultAsync(user => user.UserName == userName);
-            var craft = await _dataContext.Crafts.FirstAsync((craft) => craft.Id == item);
+            var craftItem = await _dataContext.Crafts.FirstAsync((item) => item.Id == craft);
 
-            if (user.PlayerData.Id != craft.Owner)
+            if (new Guid(user.Id) != craftItem.Owner)
             {
                 return Unauthorized("You do not own that craft.");
             }
 
-            craft.PlacedX = x;
-            craft.PlacedY = y;
+            craftItem.PlacedX = x;
+            craftItem.PlacedY = y;
 
             await _dataContext.SaveChangesAsync();
 
@@ -183,8 +186,8 @@ namespace API.Controllers
             var craft = new Craft()
             {
                 Name = craftDto.Name,
-                PlacedX = -1,
-                PlacedY = -1,
+                PlacedX = -5000,
+                PlacedY = -5000,
                 Price = 0,
                 IsForSale = false,
                 Creator = user.UserName,

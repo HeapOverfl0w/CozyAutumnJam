@@ -3,8 +3,6 @@ class Main {
         this.userData = userData;
         this.identity = identity;
 
-        this.changeUserData();
-
         this.client = new Client(identity);
 
         this.home = new Home(userData, this.client, logoutCallback, 
@@ -14,11 +12,6 @@ class Main {
         this.crafts = new Crafts(userData, this.client, this.homeCallback.bind(this));
         this.buy = new BuyCrafts(userData, this.client, this.homeCallback.bind(this));
         this.activePage = this.home;
-    }
-
-    changeUserData() {
-        SET_IMAGES_ON_USER_DATA(this.userData);
-        this.userData.playerData.lastWoodsSearch = new Date(this.userData.playerData.lastWoodsSearch);
     }
 
     craftsCallback() {

@@ -10,6 +10,9 @@
       <img id="homebackdrop" src="./game/rsc/homebackdrop.png" />
       <img id="craftbackdrop" src="./game/rsc/craftbackdrop.png" />
       <img id="stick" src="./game/rsc/stick.png" />
+      <img id="redLeaf" src="./game/rsc/redLeaf.png" />
+      <img id="yellowLeaf" src="./game/rsc/yellowLeaf.png" />
+      <img id="orangeLeaf" src="./game/rsc/orangeLeaf.png" />
     </div>
     <!-- The Modal -->
     <div id="myModal" class="modal">
@@ -33,11 +36,11 @@
         </div>
         <div id="regForm" class="regForm">
           <form>
-            <input id="regUsername" type="username" placeholder="USERNAME"/>
-            <input id="regPassword" type="password" placeholder="PASSWORD"/>
+            <input id="regUsername" type="username" placeholder="USERNAME" maxlength="20"/>
+            <input id="regPassword" type="password" placeholder="PASSWORD" maxlength="20"/>
             <div class="row">
               <button id="sbmtBtn" type="submit" class="register">SUBMIT</button>
-              <button id="cnclBtn" class="register">CANCEL</button>
+              <button id="cnclBtn" type="buton" class="register">CANCEL</button>
             </div>
           </form>
         </div>
@@ -46,17 +49,37 @@
     <div id="gamePage" class="gamePage">
       <div id="navbar" class="topnav">
       </div>
+      <div id="userinfo">
+      </div>
+      <div id="craftinfo">
+      </div>
       <table>
         <tr>
           <td>
             <canvas id="scene"></canvas>
           </td>
           <td id="sidepanel">
-            <ul id="menulist" style="list-style-type:none;overflow: auto"></ul>
+            <ul id="menulist" style="list-style-type:none;overflow:auto;padding:5px;"></ul>
             <input id="chatbox" maxlength="100"/>
           </td>
         </tr>
       </table>
+    </div>
+    <div class="modal" id="modal">
+      <div class="modal-content">
+        <div class="modal-sub-content" id="name-input">
+          <p>Name :</p>
+          <input id="name" maxlength="30"/>
+        </div>
+        <div class="modal-sub-content" id="price-input">
+          <p>Price :</p>
+          <input id="price" type="number" min="1" step="1"/>
+        </div>
+        <div class="row">
+          <button id="okButton">OK</button>
+          <button id="cancelButton">Cancel</button>
+        </div>        
+      </div>
     </div>
   </body>
   <script src='./identityagent.js'></script>
@@ -79,6 +102,17 @@
     // Get the button that opens the modal
     var regBtn = document.getElementById("regBtn");
     var cnclBtn = document.getElementById("cnclBtn");
+
+
+    var cancelButton = document.getElementById("cancelButton");
+    var extraModal = document.getElementById("modal");
+    extraModal.style.display = "none";
+    cancelButton.onclick = function () {
+      let extraModal = document.getElementById("modal");
+      extraModal.style.display = "none";
+    }
+
+    HIDE_CRAFT_INFO();
   
     //var logoutBtn = document.getElementById("logoutBtn");
 
@@ -162,12 +196,17 @@
       gamePage.style.display = "none";
     }
 
-    logoutCallback = function() {
+    var logoutCallback = function() {
+      window.clearInterval(gameTimer);
+      menu.home.disconnectFromChat();
       identity.clearToken();
       regForm.style.display = "none";
       gamePage.style.display = "none";   
-      lgnForm.style.display = "block";    
+      lgnForm.style.display = "block";   
+      modal.style.display = "block";  
     }
+
+
 
     //********  Game Start Code  ***********
     var cvs = document.getElementById("scene");
@@ -176,7 +215,11 @@
     var menu;
     var gameTimer;
 
-    var startGame = function() {      
+    var startGame = function() {     
+      let menulist = document.getElementById("menulist");
+      menulist.style.height = (window.innerHeight - 140) + "px";
+      menulist.scrollTop = menulist.scrollHeight;
+
       menu = new Main(userData, identity, logoutCallback);
       gameTimer = window.setInterval((menu) => {
         if (menu !== undefined) {
@@ -204,6 +247,14 @@
         if (menu !== undefined)
             menu.onMouseClick(new Vector2D(event.clientX / cvs.clientWidth * cvs.width, event.clientY / cvs.clientHeight * cvs.height));
     });
+
+    window.onresize = function() {
+      CHANGE_CANVAS_RESOLTUION(cvs.width, cvs.height);
+
+      let menulist = document.getElementById("menulist");
+      menulist.style.height = (window.innerHeight - 140) + "px";
+      menulist.scrollTop = menulist.scrollHeight;
+    };
 
   </script>
 </html>

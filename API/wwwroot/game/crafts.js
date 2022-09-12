@@ -8,6 +8,7 @@ class Crafts {
         this.homeCallback = homeCallback;
 
         this.visible = false;
+        this.lastSelectedCraft = undefined;
     }
 
     setVisible(isVisible) {
@@ -15,7 +16,9 @@ class Crafts {
 
         if (this.visible) {
             this.setupMenuOptions();
+            this.setupModal();
             CHANGE_CANVAS_RESOLTUION(CRAFT_CANVAS_WIDTH, CRAFT_CANVAS_HEIGHT);
+            HIDE_CHAT_INPUT();
         }
     }
 
@@ -33,18 +36,23 @@ class Crafts {
         button.onclick = this.homeCallback;
         navBar.appendChild(button);
 
+        this.lastSelectedCraft = undefined;
+        HIDE_CRAFT_INFO();
         this.setupCraftsList(craft);
     }
 
     setupCraftOptions(craft) {
         let navBar = document.getElementById('navbar');
 
-        if (navBar.children.length < 3) {
+        if (this.lastSelectedCraft != craft) {
+            while(navBar.firstChild != navBar.lastChild) {
+                navBar.removeChild(navBar.lastChild);
+            }
             let button = document.createElement("button");
             let text = document.createTextNode( craft.isForSale ? "CHANGE PRICE" : "SELL");
             button.appendChild(text);
             button.id = "sellBtn";
-            button.onclick = this.sellCraft.bind(this);
+            button.onclick = this.openModal.bind(this);
             navBar.appendChild(button);
 
             if (craft.isForSale) {
@@ -78,7 +86,34 @@ class Crafts {
             button.id = "deleteBtn";
             button.onclick = this.deleteCraft.bind(this);
             navBar.appendChild(button);
+
+            SHOW_CRAFT_INFO(craft);
+            this.lastSelectedCraft = craft;
         }
+    }
+
+    openModal() {
+        let modal = document.getElementById("modal");
+        modal.style.display = "block";
+    }
+
+    closeModal() {
+        let modal = document.getElementById("modal");
+        modal.style.display = "none";
+    }
+
+    setupModal() {
+        let button = document.getElementById("okButton");
+        button.onclick = this.sellCraft.bind(this);
+        let modalContents = document.getElementsByClassName("modal-sub-content");
+
+        for (let i = 0; i < modalContents.length; i++) {
+            modalContents[i].style.display = "none";
+        }            
+
+        let priceInput = document.getElementById("price-input");
+        priceInput.style.display = "block";
+        document.getElementById("price").value = 10;
     }
 
     onMouseOver(mouseLocation) {
@@ -94,11 +129,11 @@ class Crafts {
                 selectedCraft.placedY = -5000;
                 
                 this.client.placeCraft(selectedCraft, 
-                    Math.floor(this.currentCanvasMouseLocation.x - CRAFT_CANVAS_WIDTH/2), 
-                    Math.floor(this.currentCanvasMouseLocation.y - CRAFT_CANVAS_HEIGHT/2))
+                    Math.floor(mouseLocation.x - CRAFT_CANVAS_WIDTH/2), 
+                    Math.floor(mouseLocation.y - CRAFT_CANVAS_HEIGHT/2))
                     .then(() => {
-                        selectedCraft.placedX = Math.floor(this.currentCanvasMouseLocation.x - CRAFT_CANVAS_WIDTH/2);
-                        selectedCraft.placedY = Math.floor(this.currentCanvasMouseLocation.y - CRAFT_CANVAS_HEIGHT/2);
+                        selectedCraft.placedX = Math.floor(mouseLocation.x - CRAFT_CANVAS_WIDTH/2);
+                        selectedCraft.placedY = Math.floor(mouseLocation.y - CRAFT_CANVAS_HEIGHT/2);
 
                         CHANGE_CANVAS_RESOLTUION(CRAFT_CANVAS_WIDTH, CRAFT_CANVAS_HEIGHT);
                         this.setupMenuOptions(selectedCraft);
@@ -143,7 +178,6 @@ class Crafts {
 
     delistCraft() {
         let selectedCraft = this.getSelectedCraft();
-        //TODO GET PRICE INPUT
         if (selectedCraft) {
             this.client.toggleCraftForSale(selectedCraft)
                 .then(() => {
@@ -157,12 +191,17 @@ class Crafts {
 
     sellCraft() {
         let selectedCraft = this.getSelectedCraft();
-        //TODO GET PRICE INPUT
+        let price = Number.parseFloat(document.getElementById("price").value);
+        if (price < 1 || !Number.isInteger(price)) {
+            vt.error("Price must be greater than 1 and an integer.");
+            return;
+        }
         if (selectedCraft) {
-            this.client.toggleCraftForSale(selectedCraft, 10)
+            this.client.toggleCraftForSale(selectedCraft, price)
                 .then(() => {
                     selectedCraft.isForSale = true;
-                    selectedCraft.price = 10;
+                    selectedCraft.price = price;
+                    this.closeModal();
                     this.setupMenuOptions(selectedCraft);
                     this.setupCraftOptions(selectedCraft);
                 });

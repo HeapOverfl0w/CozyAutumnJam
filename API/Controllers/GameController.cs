@@ -58,7 +58,7 @@ namespace API.Controllers
         [HttpGet("buylist")]
         public async Task<ActionResult<IList<Craft>>> GetCraftBuyList([FromQuery]int page = 0)
         {
-            var crafts = await _dataContext.Crafts.Where((craft) => craft.IsForSale).Skip(page * 10).Take(10).ToListAsync();
+            var crafts = await _dataContext.Crafts.Where((craft) => craft.IsForSale).Skip(page * 20).Take(20).ToListAsync();
 
             return Ok(crafts);
         }
@@ -75,7 +75,7 @@ namespace API.Controllers
 
             if (!craftItem.IsForSale)
             {
-                return BadRequest("Craft is not for sale.");
+                return BadRequest("Craft is no longer for sale.");
             }
 
             if (user.PlayerData.Money < craftItem.Price)
@@ -105,7 +105,7 @@ namespace API.Controllers
 
             if (new Guid(user.Id) != craftItem.Owner)
             {
-                return Unauthorized("You do not own that craft.");
+                return BadRequest("You do not own that craft.");
             }
 
             craftItem.IsForSale = price > 0;
@@ -128,7 +128,7 @@ namespace API.Controllers
 
             if (new Guid(user.Id) != craftItem.Owner)
             {
-                return Unauthorized("You do not own that craft.");
+                return BadRequest("You do not own that craft.");
             }
 
             _dataContext.Crafts.Remove(craftItem);
@@ -150,7 +150,7 @@ namespace API.Controllers
 
             if (new Guid(user.Id) != craftItem.Owner)
             {
-                return Unauthorized("You do not own that craft.");
+                return BadRequest("You do not own that craft.");
             }
 
             craftItem.PlacedX = x;

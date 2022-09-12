@@ -10,6 +10,9 @@ const CRAFT_BACKDROP = document.getElementById('craftbackdrop');
 
 const MATERIAL_SPRITES = {};
 MATERIAL_SPRITES['stick'] = document.getElementById('stick');
+MATERIAL_SPRITES['redLeaf'] = document.getElementById('redLeaf');
+MATERIAL_SPRITES['yellowLeaf'] = document.getElementById('yellowLeaf');
+MATERIAL_SPRITES['orangeLeaf'] = document.getElementById('orangeLeaf');
 
 const CHANGE_CANVAS_RESOLTUION = function (width, height) {
     let canvas = document.getElementById('scene');
@@ -42,4 +45,30 @@ const SET_IMAGES_ON_CRAFTS_LIST = function (crafts) {
     for(let i = 0; i < crafts.length; i++) {
         crafts[i].image = TURN_BASE64_TO_IMAGE(crafts[i].data);
     }
+}
+
+const SHOW_CRAFT_INFO = function (craft) {
+    let craftInfo = document.getElementById("craftinfo");
+    craftInfo.innerHTML = `<p>Name : ${craft.name}<br/>Creator : ${craft.creator}<br/>Price : ${craft.price}</p>`;
+    craftInfo.style.display = "block";
+}
+
+const HIDE_CRAFT_INFO = function () {
+    let craftInfo = document.getElementById("craftinfo");
+    craftInfo.style.display = "none";
+}
+
+const UPDATE_USER_INFO = function (userData) {
+    let userInfo = document.getElementById("userinfo");
+    userInfo.innerHTML = `${userData.userName} - $${userData.playerData.money}`
+}
+
+const SHOW_CHAT_INPUT = function () {
+    let chatInput = document.getElementById("chatbox");
+    chatInput.style.display = "block";
+}
+
+const HIDE_CHAT_INPUT = function () {
+    let chatInput = document.getElementById("chatbox");
+    chatInput.style.display = "none";
 }

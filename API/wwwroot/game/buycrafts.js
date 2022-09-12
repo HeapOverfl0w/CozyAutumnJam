@@ -7,6 +7,8 @@ class BuyCrafts {
 
         this.homeCallback = homeCallback;
 
+        this.lastSelectedCraft = undefined;
+
         this.visible = false;
         this.crafts = [];
         this.page = 0;
@@ -18,6 +20,7 @@ class BuyCrafts {
         if (this.visible) {
             this.setupMenuOptions();
             CHANGE_CANVAS_RESOLTUION(CRAFT_CANVAS_WIDTH, CRAFT_CANVAS_HEIGHT);
+            HIDE_CHAT_INPUT();
         }
     }
 
@@ -35,6 +38,7 @@ class BuyCrafts {
         button.onclick = this.homeCallback;
         navBar.appendChild(button);
 
+        HIDE_CRAFT_INFO();
         this.setupCraftsList();
     }
 
@@ -50,7 +54,7 @@ class BuyCrafts {
             navBar.appendChild(button);
         }
 
-        if (this.crafts.length >= 10) {
+        if (this.crafts.length >= 20) {
             let button = document.createElement("button");
             let text = document.createTextNode("NEXT PAGE");
             button.appendChild(text);
@@ -105,7 +109,7 @@ class BuyCrafts {
 
     }
 
-    setupCraftOptions() {
+    setupCraftOptions(craft) {
         let navBar = document.getElementById('navbar');
 
         if (navBar.lastChild.id !== "buyBtn") {
@@ -114,7 +118,12 @@ class BuyCrafts {
             button.appendChild(text);
             button.id = "buyBtn";
             button.onclick = this.buy.bind(this);
-            navBar.appendChild(button);
+            navBar.appendChild(button);            
+        }
+
+        if (this.lastSelectedCraft != craft) {
+            SHOW_CRAFT_INFO(craft);
+            this.lastSelectedCraft = craft;
         }
     }
 
@@ -127,9 +136,21 @@ class BuyCrafts {
             this.client.buyCraft(selectedCraft)
                 .then(response => response.json())
                 .then(craft => {
+                    this.userData.playerData.money -= selectedCraft.price;
                     this.userData.crafts.push(craft);
                     this.setupMenuOptions();
+                    UPDATE_USER_INFO(this.userData);
                 })
+        } else {
+            if (selectedCraft.price > this.userData.playerData.money) {
+                vt.error("Not enough money.");
+            }
+            if (selectedCraft.owner === this.userData.id) {
+                vt.error("You already own that craft.");
+            }
+            if (this.userData.crafts.length >= 30) {
+                vt.error("You own too many crafts.")
+            }
         }
     }
 

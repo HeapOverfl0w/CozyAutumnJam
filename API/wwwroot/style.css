@@ -5,65 +5,154 @@ html, body, canvas {
     image-rendering: -webkit-crisp-edges !important;
     image-rendering: pixelated !important;
     image-rendering: crisp-edges !important;
-    /*cursor: url("./resources/cursor.png"), auto;*/
+    border-radius: 10px;
   }
 
-.discussion {
+.topnav {
   overflow: hidden;
-  background-color: black;
-  color: white;
-  vertical-align: top;
-  width: 99%;
-  height: 70%;
-  border: 10px solid gray;
+  background-color: #394F48;
 }
 
-.materialUl {
+input {
+  border-radius: 10px;
+  background-color: #FFFEEC;
+}
+
+button {
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #DE6C1C;
+  color:#FFFEEC;
+  margin: 5px;
+  border: 0px;
+  cursor:pointer;
+}
+
+button:hover {
+  background-color: #DE3413;
+}
+
+#sidepanel {
   overflow: hidden;
-  background-color: black;
-  color: white;
+  background-color: #1C2623;
+  color: #FFFEEC;
   vertical-align: top;
-  width: 99%;
-  height: 70%;
-  border: 10px solid gray;
+  width: 98%;
+  /*border-radius: 10px;
+  border: 3px solid #FFFEEC;*/
+}
+
+.searchingWoodsButton {
+  background-color: #DE6C1C;
+  animation-name: color;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes color {
+  0% {
+    background-color: #DE6C1C;
+  }
+  50% {
+    background-color: #DE3413;
+  }
+  100% {
+    background-color: #DE6C1C;
+  }
+}
+
+.chatLi {
+  border-radius: 10px;
+  border: 1px solid #FFFEEC;
+  background-color: #394F48;
+  color: #FFFEEC;
+  width: 90%;
+  margin: 5px;
+  padding: 10px;
+}
+
+.chatLi:hover {
+  background-color:#DE6C1C;
 }
 
 .materialLi {
-  border-radius: 3;
-  border: 3px solid gray;
-  background-color: black;
-  color: white;
-  width: 99%
+  border-radius: 10px;
+  border: 1px solid #FFFEEC;
+  background-color: #394F48;
+  color: #FFFEEC;
+  width: 90%;
+  margin: 5px;
+  padding: 10px;
+}
+
+.materialLi:hover {
+  background-color:#DE6C1C;
 }
 
 .selectedMaterialLi {
-  border-radius: 3;
-  border: 3px solid gray;
-  background-color: red;
-  color: white;
-  width: 99%
+  border-radius: 10px;
+  border: 1px solid #FFFEEC;
+  background-color: #DE3413;
+  color: #FFFEEC;
+  width: 90%;
+  margin: 5px;
+  padding: 10px;
 }
 
 .craftLi {
-  border-radius: 3;
-  border: 3px solid gray;
-  background-color: black;
-  color: white;
-  width: 99%
+  border-radius: 10px;
+  border: 1px solid #FFFEEC;
+  background-color: #394F48;
+  color: #FFFEEC;
+  width: 90%;
+  margin: 5px;
+  padding: 10px;
+}
+
+.craftLi:hover {
+  background-color:#DE6C1C;
 }
 
 .selectedCraftLi {
-  border-radius: 3;
-  border: 3px solid gray;
-  background-color: red;
-  color: white;
-  width: 99%
+  border-radius: 10px;
+  border: 1px solid #FFFEEC;
+  background-color: #DE3413;
+  color: #FFFEEC;
+  width: 90%;
+  margin: 5px;
+  padding: 10px;
+}
+
+.modal-sub-content {
+  border-radius: 10px;
+  border: 1px solid #FFFEEC;
+  padding: 20px;
+  background-color: #394F48;
+  color: #FFFEEC;
 }
 
 #chatbox {
+  margin-left: 5px;
+  margin-right: 5px;
+  width: 95%
+}
+
+#craftinfo {
+  border-radius: 10px;
+  border: 1px solid #FFFEEC;
+  background-color: #273631;
+  color: #FFFEEC;
+  margin: 5px;
+  padding: 10px;
   position: absolute;
-  width: 300px;
-  height: 30px;
-  bottom: 100px;
-  left: 25%;
+  left: 30px;
+  top: 50px;
+}
+
+#userinfo {
+  position: absolute;
+  right: 10px;
+  top: 15px;
+  color: #FFFEEC;
+  direction: rtl;
 }

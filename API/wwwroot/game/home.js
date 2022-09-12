@@ -1,6 +1,8 @@
 class Home {
     constructor(userData, client, logoutCallback, craftsCallback, buyCallback, createCraftCallback) {
         this.userData = userData;
+        this.changeUserData();
+
         this.visible = false;
         this.logoutCallback = logoutCallback;
         this.craftsCallback = craftsCallback;
@@ -15,9 +17,16 @@ class Home {
         this.setupChatTimeout();
     }
 
+    changeUserData() {
+        SET_IMAGES_ON_USER_DATA(this.userData);
+        this.userData.playerData.lastWoodsSearch = new Date(this.userData.playerData.lastWoodsSearch);
+    }
+
     setupChatTimeout() {
-        this.client.sendChat(this.userData.userName + " joined the chat!");
-        this.chatTimer = window.setInterval(this.chatTimeout.bind(this), 5000);
+        if (!this.chatTimer) {
+            this.client.sendChat(this.userData.userName + " joined the chat!");
+            this.chatTimer = window.setInterval(this.chatTimeout.bind(this), 6000);
+        }
     }
 
     chatTimeout() {
@@ -32,7 +41,7 @@ class Home {
         }
     }
 
-    addMessage(text, color = "#FFFFFF") {
+    addMessage(text) {
         this.lastReceivedMessage = text;
 
         var node = document.createElement("LI");
@@ -44,11 +53,14 @@ class Home {
         if (discussion.children.length > 60)
             discussion.removeChild(discussion.firstChild);
         discussion.appendChild(node);
+
+        discussion.scrollTop = menulist.scrollHeight;
     }
 
     disconnectFromChat() {
         if (this.chatTimer) {
             window.clearInterval(this.chatTimer);
+            this.chatTimer = undefined;
         }
     }
 
@@ -56,10 +68,11 @@ class Home {
         this.visible = isVisible;
 
         if (this.visible) {
+            this.lastReceivedMessage = '';
             this.setupMenuOptions();
-            if (!this.searchWoodsTimer) {
-                this.setupSearchWoodsTimeout();
-            }
+            
+            this.setupSearchWoodsTimeout();
+            SHOW_CHAT_INPUT();
 
             CHANGE_CANVAS_RESOLTUION(CANVAS_WIDTH, CANVAS_HEIGHT);
         }
@@ -113,8 +126,8 @@ class Home {
         button.onclick = this.searchWoodsCallback.bind(this);
         navBar.appendChild(button);
 
-        let sidepanel = document.getElementById("sidepanel");
-        sidepanel.className = "discussion";
+        HIDE_CRAFT_INFO();
+        UPDATE_USER_INFO(this.userData);
     }
 
     searchWoodsCallback() {
@@ -127,7 +140,7 @@ class Home {
                     this.setupSearchWoodsTimeout();
                 });
             } else {
-                this.addMessage("!!! You have too many materials (over 300). Create a craft before searching for more. !!!", "#FF0000");
+                vt.error("You have too many materials (over 300). Create a craft before searching for more.");
             }
         }        
     }
@@ -146,35 +159,62 @@ class Home {
         if (this.userData.crafts.length <= 30) {
             this.createCraftCallback();
         } else {
-            this.addMessage("!!! You have too many crafts (30). Delete crafts in order to create more. !!!", "#FF0000");
+            vt.error("You have too many crafts (30). Delete crafts in order to create more.");
         }
     }
 
     setupSearchWoodsTimeout() {
         if (this.userData.playerData.isSearchingWoods) {
+            if (this.searchWoodsTimer) {
+                window.clearTimeout(this.searchWoodsTimer);
+            }
             this.searchWoodsTimer = window.setTimeout(this.searchWoodsTimeout.bind(this), 
             this.userData.playerData.lastWoodsSearch - Date.now()  + 620000);
 
             let button = document.getElementById("searchWoodsBtn");
+            button.className = "searchingWoodsButton";
             let text = document.createTextNode("SEARCHING WOODS...");
             button.removeChild(button.firstChild);
             button.appendChild(text);
         }
-        
     }
 
     searchWoodsTimeout() {
         this.client.getPlayerData()
         .then(response => response.json())
         .then(userData => {
-            this.userData = userData;
+            this.userData.playerData.money = userData.playerData.money;
+            this.userData.playerData.materials = userData.playerData.materials;
+            this.userData.playerData.lastWoodsSearchMaterials = userData.playerData.lastWoodsSearchMaterials;
+            this.userData.playerData.isSearchingWoods = false;
+
+            UPDATE_USER_INFO(this.userData);
+
             this.searchWoodsTimer = undefined;
 
             let button = document.getElementById("searchWoodsBtn");
-            let text = document.createTextNode("SEARCH WOODS");
-            button.removeChild(button.firstChild);
-            button.appendChild(text);
+            if (button) {
+                let text = document.createTextNode("SEARCH WOODS");
+                button.className = "";
+                button.removeChild(button.firstChild);
+                button.appendChild(text);
+            }
+            
+
+            vt.success("Completed searching the woods!");
         });
+    }
+
+    onKeyUp(keyCode) {
+        if (keyCode == 13)
+        {
+            let input = document.getElementById("chatbox");
+            let textInput = input.value;
+            if (textInput) {
+                this.client.sendChat(this.userData.userName + " : " + textInput);
+                input.value = "";
+            }
+        }   
     }
 
     draw(ctx) {

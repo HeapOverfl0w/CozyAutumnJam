@@ -19,9 +19,11 @@ class CreateCraft {
 
         if (this.visible) {
             this.placedMaterials = [];
+            this.setupModal();
             this.createMaterialsModel();
             this.setupMenuOptions();
             CHANGE_CANVAS_RESOLTUION(CRAFT_CANVAS_WIDTH, CRAFT_CANVAS_HEIGHT);
+            HIDE_CHAT_INPUT();
         }
     }
 
@@ -55,7 +57,32 @@ class CreateCraft {
         button.onclick = this.homeCallback;
         navBar.appendChild(button);
 
+        HIDE_CRAFT_INFO();
         this.setupMaterialsList();
+    }
+
+    openModal() {
+        let modal = document.getElementById("modal");
+        modal.style.display = "block";
+    }
+
+    closeModal() {
+        let modal = document.getElementById("modal");
+        modal.style.display = "none";
+    }
+
+    setupModal() {
+        let button = document.getElementById("okButton");
+        button.onclick = this.submitCraft.bind(this);
+        let modalContents = document.getElementsByClassName("modal-sub-content");
+
+        for (let i = 0; i < modalContents.length; i++) {
+            modalContents[i].style.display = "none";
+        }            
+
+        let priceInput = document.getElementById("name-input");
+        priceInput.style.display = "block";
+        document.getElementById("name").value = "MyCraft";
     }
 
     setupFinishButton() {
@@ -66,12 +93,18 @@ class CreateCraft {
             let text = document.createTextNode("FINISH");
             button.appendChild(text);
             button.id = "finishBtn";
-            button.onclick = this.submitCraft.bind(this);
+            button.onclick = this.openModal.bind(this);
             navBar.appendChild(button);
         }
     }
 
     submitCraft() {
+        let name = document.getElementById('name').value;
+        if (!name) {
+            vt.error("Name must have a value.");
+            return;
+        }
+
         let materialsUsed = {};
         for(let i = 0; i < this.placedMaterials.length; i++) {
             if (materialsUsed[this.placedMaterials[i].key]) {
@@ -83,12 +116,12 @@ class CreateCraft {
         let canvas = document.getElementById('scene');
         let context = canvas.getContext("2d");
         this.draw(context, true);
-        this.client.createCraft("TODO", canvas.toDataURL(), materialsUsed)
+        this.client.createCraft(name, canvas.toDataURL(), materialsUsed)
             .then(response => response.json())
             .then(craft => {
                 craft.image = TURN_BASE64_TO_IMAGE(craft.data);
                 this.userData.crafts.unshift(craft);
-                //TODO: change this to switch to crafts
+                this.closeModal();
                 this.craftsCallback();
             });
     }
@@ -150,7 +183,7 @@ class CreateCraft {
             this.placedMaterials.push({
                 name : selectedMaterial.name,
                 key : selectedMaterial.key,
-                location : mouseLocation,
+                location : new Vector2D(Math.floor(mouseLocation.x), Math.floor(mouseLocation.y)),
                 rotation : this.currentRotation
             });
             selectedMaterial.count--;
@@ -171,20 +204,6 @@ class CreateCraft {
             } else {
                 ctx.drawImage(CRAFT_BACKDROP, 0, 0, CRAFT_CANVAS_WIDTH, CRAFT_CANVAS_HEIGHT);
             }
-            //draw selected material at cursor
-            if (selectedMaterial && this.currentCanvasMouseLocation) {
-                let selectedSprite = MATERIAL_SPRITES[selectedMaterial.key];
-                ctx.save();
-                ctx.translate(this.currentCanvasMouseLocation.x,
-                              this.currentCanvasMouseLocation.y);
-                ctx.rotate(this.currentRotation);
-                ctx.drawImage(selectedSprite, 
-                    -1 * selectedSprite.width/2, 
-                    -1 * selectedSprite.height/2, 
-                    selectedSprite.width, selectedSprite.height);
-                ctx.restore();
-            }
-
             for (let i = 0; i < this.placedMaterials.length; i++) {
                 let material = this.placedMaterials[i];
                 let sprite = MATERIAL_SPRITES[material.key];
@@ -193,8 +212,22 @@ class CreateCraft {
                               material.location.y);
                 ctx.rotate(material.rotation);
                 ctx.drawImage(sprite, 
-                    -1 * sprite.width/2, 
-                    -1 * sprite.height/2);
+                    Math.floor(-1 * sprite.width/2), 
+                    Math.floor(-1 * sprite.height/2));
+                ctx.restore();
+            }
+
+            //draw selected material at cursor
+            if (selectedMaterial && this.currentCanvasMouseLocation) {
+                let selectedSprite = MATERIAL_SPRITES[selectedMaterial.key];
+                ctx.save();
+                ctx.translate(this.currentCanvasMouseLocation.x,
+                              this.currentCanvasMouseLocation.y);
+                ctx.rotate(this.currentRotation);
+                ctx.drawImage(selectedSprite, 
+                    Math.floor(-1 * selectedSprite.width/2), 
+                    Math.floor(-1 * selectedSprite.height/2), 
+                    selectedSprite.width, selectedSprite.height);
                 ctx.restore();
             }
         }

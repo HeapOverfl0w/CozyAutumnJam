@@ -56,6 +56,8 @@ namespace API.Migrations
                     BlackPaintStripe = table.Column<int>(type: "INTEGER", nullable: false),
                     WhitePaintCircle = table.Column<int>(type: "INTEGER", nullable: false),
                     BlackPaintCircle = table.Column<int>(type: "INTEGER", nullable: false),
+                    WhitePaintTriangle = table.Column<int>(type: "INTEGER", nullable: false),
+                    BlackPaintTriangle = table.Column<int>(type: "INTEGER", nullable: false),
                     PineCone = table.Column<int>(type: "INTEGER", nullable: false),
                     Feather = table.Column<int>(type: "INTEGER", nullable: false),
                     Corn = table.Column<int>(type: "INTEGER", nullable: false),
@@ -76,7 +78,10 @@ namespace API.Migrations
                     Sheet = table.Column<int>(type: "INTEGER", nullable: false),
                     PumpkinPie = table.Column<int>(type: "INTEGER", nullable: false),
                     GooglyEyes = table.Column<int>(type: "INTEGER", nullable: false),
-                    Rope = table.Column<int>(type: "INTEGER", nullable: false)
+                    Rope = table.Column<int>(type: "INTEGER", nullable: false),
+                    Overalls = table.Column<int>(type: "INTEGER", nullable: false),
+                    Sword = table.Column<int>(type: "INTEGER", nullable: false),
+                    Chair = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -112,17 +117,11 @@ namespace API.Migrations
                     Money = table.Column<int>(type: "INTEGER", nullable: false),
                     MaterialsId = table.Column<Guid>(type: "TEXT", nullable: true),
                     LastWoodsSearch = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    LastWoodsSearchMaterialsId = table.Column<Guid>(type: "TEXT", nullable: true),
                     IsSearchingWoods = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PlayerData", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PlayerData_MaterialData_LastWoodsSearchMaterialsId",
-                        column: x => x.LastWoodsSearchMaterialsId,
-                        principalTable: "MaterialData",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_PlayerData_MaterialData_MaterialsId",
                         column: x => x.MaterialsId,
@@ -287,11 +286,6 @@ namespace API.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PlayerData_LastWoodsSearchMaterialsId",
-                table: "PlayerData",
-                column: "LastWoodsSearchMaterialsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlayerData_MaterialsId",

@@ -13,6 +13,8 @@ class Home {
         this.searchWoodsTimer = undefined;
 
         this.chatTimer = undefined;
+        this.selectedInviteCrafts = undefined;
+        this.lastSelectedInvite = undefined;
         this.lastReceivedMessage = '';
         this.setupChatTimeout();
     }
@@ -45,9 +47,15 @@ class Home {
         this.lastReceivedMessage = text;
 
         var node = document.createElement("LI");
-        node.className = "chatLi";
+        node.className = text.startsWith("*") ? "inviteLi" : "chatLi";
         var textnode = document.createTextNode(text);
         node.appendChild(textnode);
+
+        if (text.startsWith("*")) {
+            node.onclick = function () {
+                this.className = "selectedInviteLi";
+            }
+        }
 
         var discussion = document.getElementById("menulist");
         if (discussion.children.length > 60)
@@ -79,56 +87,67 @@ class Home {
         }
     }
 
-    setupMenuOptions() {
+    setupMenuOptions(clearChat = true) {
         let navBar = document.getElementById('navbar');
 
         while(navBar.firstChild) {
             navBar.removeChild(navBar.firstChild);
         }
 
-        let menulist = document.getElementById('menulist');
+        if (clearChat) {
+            let menulist = document.getElementById('menulist');
 
-        while(menulist.firstChild) {
-            menulist.removeChild(menulist.firstChild);
+            while(menulist.firstChild) {
+                menulist.removeChild(menulist.firstChild);
+            }
         }
 
-        let button = document.createElement("button");
-        let text = document.createTextNode("LOGOUT");
-        button.appendChild(text);
-        button.id = "logoutBtn";
-        button.onclick = this.logoutCallback;
-        navBar.appendChild(button);
+        if (!this.selectedInviteCrafts) {
+            let button = document.createElement("button");
+            let text = document.createTextNode("LOGOUT");
+            button.appendChild(text);
+            button.id = "logoutBtn";
+            button.onclick = this.logoutCallback;
+            navBar.appendChild(button);
 
-        button = document.createElement("button");
-        text = document.createTextNode("CRAFTS");
-        button.appendChild(text);
-        button.id = "craftsBtn";
-        button.onclick = this.craftsCallback;
-        navBar.appendChild(button);
+            button = document.createElement("button");
+            text = document.createTextNode("CRAFTS");
+            button.appendChild(text);
+            button.id = "craftsBtn";
+            button.onclick = this.craftsCallback;
+            navBar.appendChild(button);
 
-        button = document.createElement("button");
-        text = document.createTextNode("CREATE CRAFT");
-        button.appendChild(text);
-        button.id = "createCraftBtn";
-        button.onclick = this.createCraft.bind(this);
-        navBar.appendChild(button);
+            button = document.createElement("button");
+            text = document.createTextNode("CREATE CRAFT");
+            button.appendChild(text);
+            button.id = "createCraftBtn";
+            button.onclick = this.createCraft.bind(this);
+            navBar.appendChild(button);
 
-        button = document.createElement("button");
-        text = document.createTextNode("BUY CRAFTS");
-        button.appendChild(text);
-        button.id = "buyBtn";
-        button.onclick = this.buyCallback;
-        navBar.appendChild(button);
+            button = document.createElement("button");
+            text = document.createTextNode("BUY CRAFTS");
+            button.appendChild(text);
+            button.id = "buyBtn";
+            button.onclick = this.buyCallback;
+            navBar.appendChild(button);
 
-        button = document.createElement("button");
-        text = document.createTextNode("SEARCH WOODS");
-        button.appendChild(text);
-        button.id = "searchWoodsBtn";
-        button.onclick = this.searchWoodsCallback.bind(this);
-        navBar.appendChild(button);
+            button = document.createElement("button");
+            text = document.createTextNode("SEARCH WOODS");
+            button.appendChild(text);
+            button.id = "searchWoodsBtn";
+            button.onclick = this.searchWoodsCallback.bind(this);
+            navBar.appendChild(button);
 
-        HIDE_CRAFT_INFO();
-        UPDATE_USER_INFO(this.userData);
+            HIDE_CRAFT_INFO();
+            UPDATE_USER_INFO(this.userData);
+        } else {
+            let button = document.createElement("button");
+            let text = document.createTextNode("HOME");
+            button.appendChild(text);
+            button.id = "homeBtn";
+            button.onclick = this.deselectInvites.bind(this);
+            navBar.appendChild(button);
+        }
     }
 
     searchWoodsCallback() {
@@ -170,7 +189,7 @@ class Home {
                 window.clearTimeout(this.searchWoodsTimer);
             }
             this.searchWoodsTimer = window.setTimeout(this.searchWoodsTimeout.bind(this), 
-            this.userData.playerData.lastWoodsSearch - Date.now()  + 620000);
+            this.userData.playerData.lastWoodsSearch - Date.now()  + 320000);
 
             let button = document.getElementById("searchWoodsBtn");
             button.className = "searchingWoodsButton";
@@ -211,21 +230,72 @@ class Home {
             let input = document.getElementById("chatbox");
             let textInput = input.value;
             if (textInput) {
-                this.client.sendChat(this.userData.userName + " : " + textInput);
-                input.value = "";
+                if (textInput.toUpperCase() === "/INVITE") {
+                    this.client.sendChat(`* ${this.userData.userName} invites everyone to see their home. *`);
+                } else {
+                    this.client.sendChat(this.userData.userName + " : " + textInput);
+                } 
+                input.value = "";               
             }
         }   
     }
 
+    getSelectedInvite() {
+        //get selected material
+        let selectedInvites = document.getElementsByClassName("selectedInviteLi");
+        if (selectedInvites.length > 0) {
+            let userToVisit = selectedInvites[0].firstChild.nodeValue.split(" ")[1];
+
+            return userToVisit;
+        }
+        return undefined;
+    }
+
+    deselectInvites() {
+        let selectedInvites = document.getElementsByClassName("selectedInviteLi");
+        for(let i = 0; i < selectedInvites.length; i++) {
+            selectedInvites[i].className = "inviteLi";
+        }
+
+        this.selectedInviteCrafts = undefined;
+        this.lastSelectedInvite = undefined;
+        this.setupMenuOptions(false);
+    }
+
     draw(ctx) {
         if (this.visible) {
-            //draw backdrop
-            ctx.drawImage(HOME_BACKDROP, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            if (this.selectedInviteCrafts) {
+                //draw backdrop
+                ctx.drawImage(HOME_BACKDROP, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-            for (let i = 0; i < this.userData.crafts.length; i++) {
-                let craft = this.userData.crafts[i];
-                if (craft.placedX > -5000 && craft.placedY > -5000) {
-                    ctx.drawImage(craft.image, craft.placedX, craft.placedY);
+                for (let i = 0; i < this.selectedInviteCrafts.length; i++) {
+                    let craft = this.selectedInviteCrafts[i];
+                    if (craft.placedX > -5000 && craft.placedY > -5000) {
+                        ctx.drawImage(craft.image, craft.placedX, craft.placedY);
+                    }
+                }
+            } else {
+                let selectedInvite = this.getSelectedInvite();
+
+                if (!selectedInvite) {
+                    //draw backdrop
+                    ctx.drawImage(HOME_BACKDROP, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+                    for (let i = 0; i < this.userData.crafts.length; i++) {
+                        let craft = this.userData.crafts[i];
+                        if (craft.placedX > -5000 && craft.placedY > -5000) {
+                            ctx.drawImage(craft.image, craft.placedX, craft.placedY);
+                        }
+                    }
+                } else if (this.lastSelectedInvite != selectedInvite) {
+                    this.lastSelectedInvite = selectedInvite;
+                    this.client.getPlayerData(selectedInvite)
+                    .then(response => response.json())
+                    .then((data) => {
+                        SET_IMAGES_ON_USER_DATA(data);
+                        this.selectedInviteCrafts = data.crafts;
+                        this.setupMenuOptions(false);
+                    })
                 }
             }
         }

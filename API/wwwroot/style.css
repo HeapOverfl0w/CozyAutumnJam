@@ -11,6 +11,7 @@ html, body, canvas {
 .topnav {
   overflow: hidden;
   background-color: #394F48;
+  min-height: 46px;
 }
 
 input {
@@ -73,6 +74,30 @@ button:hover {
 
 .chatLi:hover {
   background-color:#DE6C1C;
+}
+
+.inviteLi {
+  border-radius: 10px;
+  border: 1px solid #FFFEEC;
+  background-color: #1c9cad;
+  color: #FFFEEC;
+  width: 90%;
+  margin: 5px;
+  padding: 10px;
+}
+
+.inviteLi:hover {
+  background-color:#DE6C1C;
+}
+
+.selectedInviteLi {
+  border-radius: 10px;
+  border: 1px solid #FFFEEC;
+  background-color: #DE3413;
+  color: #FFFEEC;
+  width: 90%;
+  margin: 5px;
+  padding: 10px;
 }
 
 .materialLi {

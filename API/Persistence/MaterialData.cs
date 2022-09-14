@@ -12,6 +12,8 @@ namespace API.Persistence
         public int BlackPaintStripe { get; set; } = 0;
         public int WhitePaintCircle { get; set; } = 0;
         public int BlackPaintCircle { get; set; } = 0;
+        public int WhitePaintTriangle { get; set; } = 0;
+        public int BlackPaintTriangle { get; set; } = 0;
         public int PineCone { get; set; } = 0;
         public int Feather { get; set; } = 0;
         public int Corn { get; set; } = 0;
@@ -33,6 +35,9 @@ namespace API.Persistence
         public int PumpkinPie { get; set; } = 0;    
         public int GooglyEyes { get; set; } = 0;  
         public int Rope { get; set; } = 0;
+        public int Overalls { get; set; } = 0;
+        public int Sword { get; set; } = 0;
+        public int Chair { get; set; } = 0;
 
         public void AddMaterials(MaterialData fromMaterials)
         {
@@ -45,6 +50,8 @@ namespace API.Persistence
             WhitePaintCircle += fromMaterials.WhitePaintCircle;
             BlackPaintStripe += fromMaterials.BlackPaintStripe;
             BlackPaintCircle += fromMaterials.BlackPaintCircle;
+            WhitePaintTriangle += fromMaterials.WhitePaintTriangle;
+            BlackPaintTriangle += fromMaterials.BlackPaintTriangle;
             PineCone += fromMaterials.PineCone;
             Feather += fromMaterials.Feather;
             Corn += fromMaterials.Corn;
@@ -66,6 +73,9 @@ namespace API.Persistence
             PumpkinPie += fromMaterials.PumpkinPie;
             GooglyEyes += fromMaterials.GooglyEyes;
             Rope += fromMaterials.Rope;
+            Overalls += fromMaterials.Overalls;
+            Sword += fromMaterials.Sword;
+            Chair += fromMaterials.Chair;
         }
 
         public void RemoveMaterials(MaterialData fromMaterials)
@@ -79,6 +89,8 @@ namespace API.Persistence
             WhitePaintCircle -= fromMaterials.WhitePaintCircle;
             BlackPaintStripe -= fromMaterials.BlackPaintStripe;
             BlackPaintCircle -= fromMaterials.BlackPaintCircle;
+            WhitePaintTriangle -= fromMaterials.WhitePaintTriangle;
+            BlackPaintTriangle -= fromMaterials.BlackPaintTriangle;
             PineCone -= fromMaterials.PineCone;
             Feather -= fromMaterials.Feather;
             Corn -= fromMaterials.Corn;
@@ -100,6 +112,9 @@ namespace API.Persistence
             PumpkinPie -= fromMaterials.PumpkinPie;
             GooglyEyes -= fromMaterials.GooglyEyes;
             Rope -= fromMaterials.Rope;
+            Overalls -= fromMaterials.Overalls;
+            Sword -= fromMaterials.Sword;
+            Chair -= fromMaterials.Chair;
         }
 
         public bool VerifyMaterialRemoval(MaterialData fromMaterials)

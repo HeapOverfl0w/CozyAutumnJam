@@ -8,6 +8,7 @@ class BuyCrafts {
         this.homeCallback = homeCallback;
 
         this.lastSelectedCraft = undefined;
+        this.lastFilter = "";
 
         this.visible = false;
         this.crafts = [];
@@ -20,7 +21,7 @@ class BuyCrafts {
         if (this.visible) {
             this.setupMenuOptions();
             CHANGE_CANVAS_RESOLTUION(CRAFT_CANVAS_WIDTH, CRAFT_CANVAS_HEIGHT);
-            HIDE_CHAT_INPUT();
+            SHOW_CHAT_INPUT();
             HIDE_UNDO_BUTTON();
         }
     }
@@ -83,7 +84,7 @@ class BuyCrafts {
             menulist.removeChild(menulist.firstChild);
         }
 
-        this.client.getCraftBuyList(this.page)
+        this.client.getCraftBuyList(this.page, this.lastFilter)
             .then(response => response.json())
             .then(crafts => {
                 this.crafts = crafts;
@@ -178,6 +179,19 @@ class BuyCrafts {
             return selectedCraftIndex > -1 ? this.crafts[selectedCraftIndex] : undefined;
         }
         return undefined;
+    }
+
+    onKeyUp(keyCode) {
+        if (keyCode == 13)
+        {
+            let input = document.getElementById("chatbox");
+            let textInput = input.value;
+            if (this.lastFilter != textInput) {
+                this.page = 0;
+                this.lastFilter = textInput;   
+                this.setupMenuOptions();           
+            }
+        }   
     }
 
     draw(ctx) {

@@ -1,7 +1,7 @@
-const CANVAS_WIDTH = 300;
-const CANVAS_HEIGHT = 260;
-const CRAFT_CANVAS_WIDTH = CANVAS_WIDTH / 2;
-const CRAFT_CANVAS_HEIGHT = CANVAS_HEIGHT / 2;
+const CANVAS_WIDTH = 450;
+const CANVAS_HEIGHT = 390;
+const CRAFT_CANVAS_WIDTH = CANVAS_WIDTH / 3;
+const CRAFT_CANVAS_HEIGHT = CANVAS_HEIGHT / 3;
 const BASE_URL = "http://localhost:5000";
 
 //resources
@@ -39,6 +39,11 @@ MATERIAL_SPRITES['broom'] = document.getElementById('broom');
 MATERIAL_SPRITES['pitchFork'] = document.getElementById('pitchFork');
 MATERIAL_SPRITES['pumpkinPie'] = document.getElementById('pumpkinPie');
 MATERIAL_SPRITES['rock'] = document.getElementById('rock');
+MATERIAL_SPRITES['chair'] = document.getElementById('chair');
+MATERIAL_SPRITES['overalls'] = document.getElementById('overalls');
+MATERIAL_SPRITES['sword'] = document.getElementById('sword');
+MATERIAL_SPRITES['blackPaintTriangle'] = document.getElementById('blackPaintTriangle');
+MATERIAL_SPRITES['whitePaintTriangle'] = document.getElementById('whitePaintTriangle');
 
 const CHANGE_CANVAS_RESOLTUION = function (width, height) {
     let canvas = document.getElementById('scene');
@@ -76,6 +81,12 @@ const SET_IMAGES_ON_CRAFTS_LIST = function (crafts) {
 const SHOW_CRAFT_INFO = function (craft) {
     let craftInfo = document.getElementById("craftinfo");
     craftInfo.innerHTML = `<p>Name : ${craft.name}<br/>Creator : ${craft.creator}<br/>Price : ${craft.price}</p>`;
+    craftInfo.style.display = "block";
+}
+
+const SHOW_CREATE_CRAFT_INFO = function () {
+    let craftInfo = document.getElementById("craftinfo");
+    craftInfo.innerHTML = '<p>Press E/R to rotate.<br/>Press F to flip horizontally.<br/>Left click to place.</p>';
     craftInfo.style.display = "block";
 }
 

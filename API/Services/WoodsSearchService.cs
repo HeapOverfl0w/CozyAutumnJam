@@ -30,7 +30,7 @@ namespace API.Services
                 if (user.PlayerData.IsSearchingWoods)
                 {
                     var timeSpan = now - user.PlayerData.LastWoodsSearch;
-                    if (timeSpan.TotalMinutes >= 10)
+                    if (timeSpan.TotalMinutes >= 5)
                     {
                         var userData = dataContext.Users
                             .Include(user => user.PlayerData)

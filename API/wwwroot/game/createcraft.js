@@ -9,6 +9,7 @@ class CreateCraft {
         this.placedMaterials = [];
 
         this.currentRotation = 0;
+        this.flip = false;
         this.currentCanvasMouseLocation = new Vector2D(300,300);
 
         this.visible = false;
@@ -61,7 +62,7 @@ class CreateCraft {
         let undoButton = document.getElementById("undo");
         undoButton.onclick = this.undo.bind(this);
 
-        HIDE_CRAFT_INFO();
+        SHOW_CREATE_CRAFT_INFO();
         this.setupMaterialsList();
     }
 
@@ -136,6 +137,11 @@ class CreateCraft {
         this.client.createCraft(name, canvas.toDataURL(), materialsUsed)
             .then(response => response.json())
             .then(craft => {
+                //remove materials used
+                for(let i = 0; i < this.placedMaterials.length; i++) {
+                    this.userData.playerData.materials[this.placedMaterials[i].key]--;
+                }
+
                 craft.image = TURN_BASE64_TO_IMAGE(craft.data);
                 this.userData.crafts.unshift(craft);
                 this.closeModal();
@@ -187,6 +193,9 @@ class CreateCraft {
         if (keyCode == 69) {
             this.currentRotation -= Math.PI / 40;
         }
+        if (keyCode == 70) {
+            this.flip = !this.flip;
+        }
     }
 
     onMouseOver(mouseLocation) {
@@ -200,11 +209,13 @@ class CreateCraft {
             this.placedMaterials.push({
                 name : selectedMaterial.name,
                 key : selectedMaterial.key,
+                flip : this.flip,
                 location : new Vector2D(Math.floor(mouseLocation.x), Math.floor(mouseLocation.y)),
                 rotation : this.currentRotation
             });
             selectedMaterial.count--;
             this.currentRotation = 0;
+            this.flip = false;
 
             this.setupMaterialsList();
 
@@ -228,6 +239,9 @@ class CreateCraft {
                 ctx.translate(material.location.x,
                               material.location.y);
                 ctx.rotate(material.rotation);
+                if (material.flip) {
+                    ctx.scale(-1,1);
+                }
                 ctx.drawImage(sprite, 
                     Math.floor(-1 * sprite.width/2), 
                     Math.floor(-1 * sprite.height/2));
@@ -241,6 +255,9 @@ class CreateCraft {
                 ctx.translate(this.currentCanvasMouseLocation.x,
                               this.currentCanvasMouseLocation.y);
                 ctx.rotate(this.currentRotation);
+                if (this.flip) {
+                    ctx.scale(-1,1);
+                }
                 ctx.drawImage(selectedSprite, 
                     Math.floor(-1 * selectedSprite.width/2), 
                     Math.floor(-1 * selectedSprite.height/2), 

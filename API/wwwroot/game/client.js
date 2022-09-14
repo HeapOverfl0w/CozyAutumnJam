@@ -74,8 +74,8 @@ class Client {
         });
     }
 
-    getCraftBuyList(page = 0) {
-        return fetch(BASE_URL + `/api/game/buylist?page=${page}`,{
+    getCraftBuyList(page = 0, filter = "") {
+        return fetch(BASE_URL + `/api/game/buylist?page=${page}&filter=${filter}`,{
             method: 'GET',
             headers: this.createHeaders()
         })

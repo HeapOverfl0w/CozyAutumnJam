@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220909145950_InitialCreate")]
+    [Migration("20220914153756_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -135,6 +135,9 @@ namespace API.Migrations
                     b.Property<int>("BlackPaintStripe")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("BlackPaintTriangle")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("Bone")
                         .HasColumnType("INTEGER");
 
@@ -145,6 +148,9 @@ namespace API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Candle")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Chair")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Corn")
@@ -163,6 +169,9 @@ namespace API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("OrangeLeaf")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Overalls")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("PineCone")
@@ -201,6 +210,9 @@ namespace API.Migrations
                     b.Property<int>("Straw")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("Sword")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("Tire")
                         .HasColumnType("INTEGER");
 
@@ -208,6 +220,9 @@ namespace API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("WhitePaintStripe")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("WhitePaintTriangle")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("WitchHat")
@@ -236,9 +251,6 @@ namespace API.Migrations
                     b.Property<DateTime>("LastWoodsSearch")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid?>("LastWoodsSearchMaterialsId")
-                        .HasColumnType("TEXT");
-
                     b.Property<Guid?>("MaterialsId")
                         .HasColumnType("TEXT");
 
@@ -246,8 +258,6 @@ namespace API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LastWoodsSearchMaterialsId");
 
                     b.HasIndex("MaterialsId");
 
@@ -393,15 +403,9 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Persistence.PlayerData", b =>
                 {
-                    b.HasOne("API.Persistence.MaterialData", "LastWoodsSearchMaterials")
-                        .WithMany()
-                        .HasForeignKey("LastWoodsSearchMaterialsId");
-
                     b.HasOne("API.Persistence.MaterialData", "Materials")
                         .WithMany()
                         .HasForeignKey("MaterialsId");
-
-                    b.Navigation("LastWoodsSearchMaterials");
 
                     b.Navigation("Materials");
                 });

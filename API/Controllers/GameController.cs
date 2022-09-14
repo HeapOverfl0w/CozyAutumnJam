@@ -66,9 +66,14 @@ namespace API.Controllers
 
         [Authorize]
         [HttpGet("buylist")]
-        public async Task<ActionResult<IList<Craft>>> GetCraftBuyList([FromQuery]int page = 0)
+        public async Task<ActionResult<IList<Craft>>> GetCraftBuyList([FromQuery]int page = 0, [FromQuery]string filter = "")
         {
-            var crafts = await _dataContext.Crafts.Where((craft) => craft.IsForSale).Skip(page * 20).Take(20).ToListAsync();
+            List<Craft> crafts;
+            if (String.IsNullOrEmpty(filter)) {
+                crafts = await _dataContext.Crafts.Where((craft) => craft.IsForSale).Skip(page * 20).Take(20).ToListAsync();
+            } else {
+                crafts = await _dataContext.Crafts.Where((craft) => craft.IsForSale && craft.Name.Contains(filter)).Skip(page * 20).Take(20).ToListAsync();
+            }
 
             return Ok(crafts);
         }

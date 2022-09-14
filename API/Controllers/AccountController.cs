@@ -36,7 +36,6 @@ namespace API.Controllers
             var user = await _dataContext.Users
             .Include(user => user.PlayerData)
             .Include(user => user.PlayerData.Materials)
-            .Include(user => user.PlayerData.LastWoodsSearchMaterials)
             .FirstOrDefaultAsync(user => user.UserName == loginDto.Username);
 
             if (user == null) return Unauthorized();
@@ -111,7 +110,6 @@ namespace API.Controllers
             var user = await _dataContext.Users
             .Include(user => user.PlayerData)
             .Include(user => user.PlayerData.Materials)
-            .Include(user => user.PlayerData.LastWoodsSearchMaterials)
             .FirstOrDefaultAsync(user => user.UserName == userName);
 
             if (user == null) return Unauthorized();

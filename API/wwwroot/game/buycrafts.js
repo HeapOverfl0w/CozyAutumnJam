@@ -21,6 +21,7 @@ class BuyCrafts {
             this.setupMenuOptions();
             CHANGE_CANVAS_RESOLTUION(CRAFT_CANVAS_WIDTH, CRAFT_CANVAS_HEIGHT);
             HIDE_CHAT_INPUT();
+            HIDE_UNDO_BUTTON();
         }
     }
 
@@ -134,13 +135,21 @@ class BuyCrafts {
             this.userData.crafts.length <= 30 &&
             selectedCraft.owner !== this.userData.id) {
             this.client.buyCraft(selectedCraft)
-                .then(response => response.json())
-                .then(craft => {
-                    this.userData.playerData.money -= selectedCraft.price;
-                    this.userData.crafts.push(craft);
-                    this.setupMenuOptions();
-                    UPDATE_USER_INFO(this.userData);
-                })
+                .then(response => { 
+                    if (response.status === 401) {
+                        vt.error("Craft was already purchased.");
+                        this.crafts.splice(this.userData.crafts.indexOf(selectedCraft), 1);
+                        this.setupMenuOptions();
+                    } else {
+                        response.json().then(craft => {
+                            craft.image = TURN_BASE64_TO_IMAGE(craft.data);
+                            this.userData.playerData.money -= selectedCraft.price;
+                            this.userData.crafts.push(craft);
+                            this.setupMenuOptions();
+                            UPDATE_USER_INFO(this.userData);
+                        });
+                    }
+                })                
         } else {
             if (selectedCraft.price > this.userData.playerData.money) {
                 vt.error("Not enough money.");

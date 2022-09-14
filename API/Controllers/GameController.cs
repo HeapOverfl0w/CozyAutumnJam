@@ -37,7 +37,6 @@ namespace API.Controllers
             var user = await _dataContext.Users
             .Include(user => user.PlayerData)
             .Include(user => user.PlayerData.Materials)
-            .Include(user => user.PlayerData.LastWoodsSearchMaterials)
             .FirstOrDefaultAsync(user => user.UserName == userName);
 
             if (user == null) return Unauthorized();
@@ -51,6 +50,17 @@ namespace API.Controllers
                 UserName = user.UserName,
                 Id = userId,
                 Crafts = crafts
+            });
+        }
+
+        [Authorize]
+        [HttpGet("money")]
+        public async Task<ActionResult<MoneyDto>> GetMoney()
+        {
+            var userName = User.FindFirstValue(ClaimTypes.Name);
+            var user = await _dataContext.Users.Include(user => user.PlayerData).FirstOrDefaultAsync(user => user.UserName == userName);
+            return Ok(new MoneyDto() {
+                Money = user.PlayerData.Money
             });
         }
 
@@ -71,11 +81,16 @@ namespace API.Controllers
             var user = await _dataContext.Users
             .Include(user => user.PlayerData)
             .FirstOrDefaultAsync(user => user.UserName == userName);
+            
             var craftItem = await _dataContext.Crafts.FirstAsync((item) => item.Id == craft);
+
+            var ownerUser = await _dataContext.Users
+            .Include(user => user.PlayerData)
+            .FirstOrDefaultAsync(user => user.Id == craftItem.Owner.ToString());
 
             if (!craftItem.IsForSale)
             {
-                return BadRequest("Craft is no longer for sale.");
+                return Unauthorized("Craft is no longer for sale.");
             }
 
             if (user.PlayerData.Money < craftItem.Price)
@@ -83,10 +98,13 @@ namespace API.Controllers
                 return BadRequest("Not enough money.");
             }
 
+            ownerUser.PlayerData.Money += craftItem.Price;
             user.PlayerData.Money -= craftItem.Price;
             craftItem.Owner = new Guid(user.Id);
             craftItem.IsForSale = false;
             craftItem.Price = 0;
+            craftItem.PlacedX = -5000;
+            craftItem.PlacedY = -5000;
 
             _dataContext.SaveChanges();
 
@@ -105,7 +123,7 @@ namespace API.Controllers
 
             if (new Guid(user.Id) != craftItem.Owner)
             {
-                return BadRequest("You do not own that craft.");
+                return Unauthorized("You do not own that craft.");
             }
 
             craftItem.IsForSale = price > 0;
@@ -128,7 +146,7 @@ namespace API.Controllers
 
             if (new Guid(user.Id) != craftItem.Owner)
             {
-                return BadRequest("You do not own that craft.");
+                return Unauthorized("You do not own that craft.");
             }
 
             _dataContext.Crafts.Remove(craftItem);
@@ -150,7 +168,7 @@ namespace API.Controllers
 
             if (new Guid(user.Id) != craftItem.Owner)
             {
-                return BadRequest("You do not own that craft.");
+                return Unauthorized("You do not own that craft.");
             }
 
             craftItem.PlacedX = x;
@@ -169,7 +187,6 @@ namespace API.Controllers
             var user = await _dataContext.Users
             .Include(user => user.PlayerData)
             .Include(user => user.PlayerData.Materials)
-            .Include(user => user.PlayerData.LastWoodsSearchMaterials)
             .FirstOrDefaultAsync(user => user.UserName == userName);
             var craftCount = _dataContext.Crafts.Where((craft) => craft.Owner == new Guid(user.Id)).Count();
 

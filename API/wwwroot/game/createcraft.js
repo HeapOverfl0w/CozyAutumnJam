@@ -24,6 +24,7 @@ class CreateCraft {
             this.setupMenuOptions();
             CHANGE_CANVAS_RESOLTUION(CRAFT_CANVAS_WIDTH, CRAFT_CANVAS_HEIGHT);
             HIDE_CHAT_INPUT();
+            SHOW_UNDO_BUTTON();
         }
     }
 
@@ -57,8 +58,20 @@ class CreateCraft {
         button.onclick = this.homeCallback;
         navBar.appendChild(button);
 
+        let undoButton = document.getElementById("undo");
+        undoButton.onclick = this.undo.bind(this);
+
         HIDE_CRAFT_INFO();
         this.setupMaterialsList();
+    }
+
+    undo() {
+        if (this.placedMaterials.length > 0) {
+            let lastMaterial = this.placedMaterials.pop();
+            this.materials.find(material => material.key === lastMaterial.key).count++;
+            this.setupMaterialsList();
+            this.setupFinishButton();
+        }
     }
 
     openModal() {
@@ -95,6 +108,10 @@ class CreateCraft {
             button.id = "finishBtn";
             button.onclick = this.openModal.bind(this);
             navBar.appendChild(button);
+        }
+
+        if (this.placedMaterials.length === 0) {
+            navBar.removeChild(navBar.lastChild);
         }
     }
 
@@ -165,10 +182,10 @@ class CreateCraft {
 
     onKeyDown(keyCode) {
         if (keyCode == 82) {
-            this.currentRotation += Math.PI / 60;
+            this.currentRotation += Math.PI / 40;
         }
         if (keyCode == 69) {
-            this.currentRotation -= Math.PI / 60;
+            this.currentRotation -= Math.PI / 40;
         }
     }
 
@@ -218,7 +235,7 @@ class CreateCraft {
             }
 
             //draw selected material at cursor
-            if (selectedMaterial && this.currentCanvasMouseLocation) {
+            if (selectedMaterial && this.currentCanvasMouseLocation && !removeBackdrop) {
                 let selectedSprite = MATERIAL_SPRITES[selectedMaterial.key];
                 ctx.save();
                 ctx.translate(this.currentCanvasMouseLocation.x,

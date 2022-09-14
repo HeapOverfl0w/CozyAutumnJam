@@ -6,7 +6,6 @@ namespace API.Persistence
         public int Money { get; set; }
         public MaterialData Materials { get; set; }
         public DateTime LastWoodsSearch { get; set; }
-        public MaterialData LastWoodsSearchMaterials { get; set; }
         public bool IsSearchingWoods { get; set; }
     }
 }

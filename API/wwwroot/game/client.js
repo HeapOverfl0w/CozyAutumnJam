@@ -14,6 +14,17 @@ class Client {
         return headers;
     }
 
+    getMoney() {
+        return fetch(BASE_URL + '/api/game/money', {
+            method: 'GET',
+            headers: this.createHeaders()
+        })
+        .catch(error => {
+            console.error(error);
+            vt.error(error.message);
+        });
+    }
+
     sendChat(message) {
         fetch(BASE_URL + '/api/chat/send?text='+message, {
             method: 'GET',
@@ -21,7 +32,7 @@ class Client {
         })
         .catch(error => {
             console.error(error);
-            vt.error(error.message);
+            //vt.error(error.message);
         });
     }
 

@@ -13,6 +13,32 @@ MATERIAL_SPRITES['stick'] = document.getElementById('stick');
 MATERIAL_SPRITES['redLeaf'] = document.getElementById('redLeaf');
 MATERIAL_SPRITES['yellowLeaf'] = document.getElementById('yellowLeaf');
 MATERIAL_SPRITES['orangeLeaf'] = document.getElementById('orangeLeaf');
+MATERIAL_SPRITES['blackPaintStripe'] = document.getElementById('blackPaintStripe');
+MATERIAL_SPRITES['whitePaintStripe'] = document.getElementById('whitePaintStripe');
+MATERIAL_SPRITES['whitePaintCircle'] = document.getElementById('whitePaintCircle');
+MATERIAL_SPRITES['blackPaintCircle'] = document.getElementById('blackPaintCircle');
+MATERIAL_SPRITES['corn'] = document.getElementById('corn');
+MATERIAL_SPRITES['feather'] = document.getElementById('feather');
+MATERIAL_SPRITES['pineCone'] = document.getElementById('pineCone');
+MATERIAL_SPRITES['woodBoard'] = document.getElementById('woodBoard');
+MATERIAL_SPRITES['bone'] = document.getElementById('bone');
+MATERIAL_SPRITES['skull'] = document.getElementById('skull');
+MATERIAL_SPRITES['candle'] = document.getElementById('candle');
+MATERIAL_SPRITES['bottle'] = document.getElementById('bottle');
+MATERIAL_SPRITES['pumpkin'] = document.getElementById('pumpkin');
+MATERIAL_SPRITES['googlyEyes'] = document.getElementById('googlyEyes');
+MATERIAL_SPRITES['straw'] = document.getElementById('straw');
+MATERIAL_SPRITES['scarf'] = document.getElementById('scarf');
+MATERIAL_SPRITES['rope'] = document.getElementById('rope');
+MATERIAL_SPRITES['tire'] = document.getElementById('tire');
+MATERIAL_SPRITES['sheet'] = document.getElementById('sheet');
+MATERIAL_SPRITES['witchHat'] = document.getElementById('witchHat');
+MATERIAL_SPRITES['metal'] = document.getElementById('metal');
+MATERIAL_SPRITES['hoodie'] = document.getElementById('hoodie');
+MATERIAL_SPRITES['broom'] = document.getElementById('broom');
+MATERIAL_SPRITES['pitchFork'] = document.getElementById('pitchFork');
+MATERIAL_SPRITES['pumpkinPie'] = document.getElementById('pumpkinPie');
+MATERIAL_SPRITES['rock'] = document.getElementById('rock');
 
 const CHANGE_CANVAS_RESOLTUION = function (width, height) {
     let canvas = document.getElementById('scene');
@@ -66,6 +92,16 @@ const UPDATE_USER_INFO = function (userData) {
 const SHOW_CHAT_INPUT = function () {
     let chatInput = document.getElementById("chatbox");
     chatInput.style.display = "block";
+}
+
+const SHOW_UNDO_BUTTON = function () {
+    let undoButton = document.getElementById("undo");
+    undoButton.style.display = "block";
+}
+
+const HIDE_UNDO_BUTTON = function () {
+    let undoButton = document.getElementById("undo");
+    undoButton.style.display = "none";
 }
 
 const HIDE_CHAT_INPUT = function () {

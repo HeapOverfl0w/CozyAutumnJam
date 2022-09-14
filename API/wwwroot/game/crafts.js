@@ -19,6 +19,7 @@ class Crafts {
             this.setupModal();
             CHANGE_CANVAS_RESOLTUION(CRAFT_CANVAS_WIDTH, CRAFT_CANVAS_HEIGHT);
             HIDE_CHAT_INPUT();
+            HIDE_UNDO_BUTTON();
         }
     }
 
@@ -131,13 +132,25 @@ class Crafts {
                 this.client.placeCraft(selectedCraft, 
                     Math.floor(mouseLocation.x - CRAFT_CANVAS_WIDTH/2), 
                     Math.floor(mouseLocation.y - CRAFT_CANVAS_HEIGHT/2))
-                    .then(() => {
-                        selectedCraft.placedX = Math.floor(mouseLocation.x - CRAFT_CANVAS_WIDTH/2);
-                        selectedCraft.placedY = Math.floor(mouseLocation.y - CRAFT_CANVAS_HEIGHT/2);
+                    .then((response) => {
+                        if (response.status === 401) {
+                            vt.error("You no longer own that craft.");
+                            this.userData.crafts.splice(this.userData.crafts.indexOf(selectedCraft), 1);
+                            this.setupMenuOptions();
+                            //Item probably sold, update money count
+                            this.client.getMoney().then(response => 
+                                response.json().then((moneyDto) => {
+                                    this.userData.playerData.money = moneyDto.money;
+                                    UPDATE_USER_INFO(this.userData);
+                                }));
+                        } else {
+                            selectedCraft.placedX = Math.floor(mouseLocation.x - CRAFT_CANVAS_WIDTH/2);
+                            selectedCraft.placedY = Math.floor(mouseLocation.y - CRAFT_CANVAS_HEIGHT/2);
 
-                        CHANGE_CANVAS_RESOLTUION(CRAFT_CANVAS_WIDTH, CRAFT_CANVAS_HEIGHT);
-                        this.setupMenuOptions(selectedCraft);
-                        this.setupCraftOptions(selectedCraft);
+                            CHANGE_CANVAS_RESOLTUION(CRAFT_CANVAS_WIDTH, CRAFT_CANVAS_HEIGHT);
+                            this.setupMenuOptions(selectedCraft);
+                            this.setupCraftOptions(selectedCraft);
+                        }
                     })
             }
         }        
@@ -167,11 +180,24 @@ class Crafts {
         let selectedCraft = this.getSelectedCraft();
         if (selectedCraft) {
             this.client.placeCraft(selectedCraft, -5000, -5000)
-                .then(() => {
-                    selectedCraft.placedX = -5000;
-                    selectedCraft.placedY = -5000;
-                    this.setupMenuOptions(selectedCraft);
-                    this.setupCraftOptions(selectedCraft);
+                .then((response) => {
+                    //unauthorized since no longer owned
+                    if (response.status === 401) {
+                        vt.error("You no longer own that craft.");
+                        this.userData.crafts.splice(this.userData.crafts.indexOf(selectedCraft), 1);
+                        this.setupMenuOptions();
+                        //Item probably sold, update money count
+                        this.client.getMoney().then(response => 
+                            response.json().then((moneyDto) => {
+                                this.userData.playerData.money = moneyDto.money;
+                                UPDATE_USER_INFO(this.userData);
+                            }));
+                    } else {
+                        selectedCraft.placedX = -5000;
+                        selectedCraft.placedY = -5000;
+                        this.setupMenuOptions(selectedCraft);
+                        this.setupCraftOptions(selectedCraft);
+                    }
                 });
         }
     }
@@ -180,11 +206,24 @@ class Crafts {
         let selectedCraft = this.getSelectedCraft();
         if (selectedCraft) {
             this.client.toggleCraftForSale(selectedCraft)
-                .then(() => {
-                    selectedCraft.isForSale = false;
-                    selectedCraft.price = 0;
-                    this.setupMenuOptions(selectedCraft);
-                    this.setupCraftOptions(selectedCraft);
+                .then((response) => {
+                    //unauthorized since no longer owned
+                    if (response.status === 401) {
+                        vt.error("You no longer own that craft.");
+                        this.userData.crafts.splice(this.userData.crafts.indexOf(selectedCraft), 1);
+                        this.setupMenuOptions();
+                        //Item probably sold, update money count
+                        this.client.getMoney().then(response => 
+                            response.json().then((moneyDto) => {
+                                this.userData.playerData.money = moneyDto.money;
+                                UPDATE_USER_INFO(this.userData);
+                            }));
+                    } else {
+                        selectedCraft.isForSale = false;
+                        selectedCraft.price = 0;
+                        this.setupMenuOptions(selectedCraft);
+                        this.setupCraftOptions(selectedCraft);
+                    }
                 });
         }
     }
@@ -198,12 +237,25 @@ class Crafts {
         }
         if (selectedCraft) {
             this.client.toggleCraftForSale(selectedCraft, price)
-                .then(() => {
-                    selectedCraft.isForSale = true;
-                    selectedCraft.price = price;
-                    this.closeModal();
-                    this.setupMenuOptions(selectedCraft);
-                    this.setupCraftOptions(selectedCraft);
+                .then((response) => {
+                    //unauthorized since no longer owned
+                    if (response.status === 401) {
+                        vt.error("You no longer own that craft.");
+                        this.userData.crafts.splice(this.userData.crafts.indexOf(selectedCraft), 1);
+                        this.setupMenuOptions();
+                        //Item probably sold, update money count
+                        this.client.getMoney().then(response => 
+                            response.json().then((moneyDto) => {
+                                this.userData.playerData.money = moneyDto.money;
+                                UPDATE_USER_INFO(this.userData);
+                            }));
+                    } else {
+                        selectedCraft.isForSale = true;
+                        selectedCraft.price = price;
+                        this.closeModal();
+                        this.setupMenuOptions(selectedCraft);
+                        this.setupCraftOptions(selectedCraft);
+                    }
                 });
         }
     }
@@ -212,9 +264,21 @@ class Crafts {
         let selectedCraft = this.getSelectedCraft();
         if (selectedCraft) {
             this.client.deleteCraft(selectedCraft)
-                .then(() => {
-                    this.userData.crafts.splice(this.userData.crafts.indexOf(selectedCraft), 1);
-                    this.setupMenuOptions();
+                .then((response) => {
+                    if (response.status === 401) {
+                        vt.error("You no longer own that craft.");
+                        this.userData.crafts.splice(this.userData.crafts.indexOf(selectedCraft), 1);
+                        this.setupMenuOptions();
+                        //Item probably sold, update money count
+                        this.client.getMoney().then(response => 
+                            response.json().then((moneyDto) => {
+                                this.userData.playerData.money = moneyDto.money;
+                                UPDATE_USER_INFO(this.userData);
+                            }));
+                    } else {
+                        this.userData.crafts.splice(this.userData.crafts.indexOf(selectedCraft), 1);
+                        this.setupMenuOptions();
+                    }
                 })
         }
     }

@@ -73,6 +73,7 @@ class Home {
             
             this.setupSearchWoodsTimeout();
             SHOW_CHAT_INPUT();
+            HIDE_UNDO_BUTTON();
 
             CHANGE_CANVAS_RESOLTUION(CANVAS_WIDTH, CANVAS_HEIGHT);
         }
@@ -185,7 +186,6 @@ class Home {
         .then(userData => {
             this.userData.playerData.money = userData.playerData.money;
             this.userData.playerData.materials = userData.playerData.materials;
-            this.userData.playerData.lastWoodsSearchMaterials = userData.playerData.lastWoodsSearchMaterials;
             this.userData.playerData.isSearchingWoods = false;
 
             UPDATE_USER_INFO(this.userData);

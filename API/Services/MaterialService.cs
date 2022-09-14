@@ -41,18 +41,21 @@ namespace API.Services
                 //pumpkin 3% chance
                 else if (randomNumber > 57)
                     returnData.Pumpkin++;
-                //PineCone 5% chance
-                else if (randomNumber > 52)
+                //PineCone 4% chance
+                else if (randomNumber > 53)
                     returnData.PineCone++;
-                //Feather 5% chance
-                else if (randomNumber > 47)
+                //Feather 4% chance
+                else if (randomNumber > 49)
                     returnData.Feather++;
-                //Corn 5% chance
-                else if (randomNumber > 42)
+                //Corn 4% chance
+                else if (randomNumber > 45)
                     returnData.Corn++;
-                //Straw 5% chance
-                else if (randomNumber > 37)
+                //Straw 4% chance
+                else if (randomNumber > 41)
                     returnData.Straw++;
+                //Rock 4% chance
+                else if (randomNumber > 37)
+                    returnData.Rock++;
                 //bottle 3% chance
                 else if (randomNumber > 34)
                     returnData.Bottle++;
@@ -77,26 +80,26 @@ namespace API.Services
                 //metal 2% chance
                 else if (randomNumber > 18)
                     returnData.Metal++;
-                //witch hat 2% chance
-                else if (randomNumber > 16)
+                //witch hat 1% chance
+                else if (randomNumber > 17)
                     returnData.WitchHat++;
-                //broom 2% chance
-                else if (randomNumber > 14)
+                //broom 1% chance
+                else if (randomNumber > 16)
                     returnData.Broom++;
-                //pitch fork 2% chance
-                else if (randomNumber > 12)
+                //pitch fork 1% chance
+                else if (randomNumber > 15)
                     returnData.PitchFork++;
                 //sheet 2% chance
-                else if (randomNumber > 10)
+                else if (randomNumber > 13)
                     returnData.Sheet++;
                 //pumpkin pie 2% chance
-                else if (randomNumber > 8)
+                else if (randomNumber > 11)
                     returnData.PumpkinPie++;
-                //googly eyes 2% chance
-                else if (randomNumber > 6)
+                //googly eyes 1% chance
+                else if (randomNumber > 10)
                     returnData.GooglyEyes++;
                 //rope 2% chance
-                else if (randomNumber > 4)
+                else if (randomNumber > 8)
                     returnData.Rope++;
             }
 

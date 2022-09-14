@@ -35,13 +35,11 @@ namespace API.Services
                         var userData = dataContext.Users
                             .Include(user => user.PlayerData)
                             .Include(user => user.PlayerData.Materials)
-                            .Include(user => user.PlayerData.LastWoodsSearchMaterials)
                             .First(u => u.UserName == user.UserName);
                         userData.PlayerData.IsSearchingWoods = false;
-                        var woodsSearchMaterials = _materialService.GenerateMaterialData(10);
+                        var woodsSearchMaterials = _materialService.GenerateMaterialData(20);
                         userData.PlayerData.Materials.AddMaterials(woodsSearchMaterials);
                         userData.PlayerData.Money += new Random().Next(10);
-                        userData.PlayerData.LastWoodsSearchMaterials = woodsSearchMaterials;
                         dataContext.SaveChanges();
                     }
                 }

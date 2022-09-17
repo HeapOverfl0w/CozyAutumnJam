@@ -152,7 +152,7 @@ class Home {
 
     searchWoodsCallback() {
         if (!this.userData.playerData.isSearchingWoods) {
-            if (this.calculateMaterialCount() <= 300) {
+            if (this.calculateMaterialCount() <= 500) {
                 this.client.searchWoods()
                 .then(() => {
                     this.userData.playerData.isSearchingWoods = true;
@@ -160,7 +160,7 @@ class Home {
                     this.setupSearchWoodsTimeout();
                 });
             } else {
-                vt.error("You have too many materials (over 300). Create a craft before searching for more.");
+                vt.error("You have too many materials (over 500). Create a craft before searching for more.");
             }
         }        
     }
@@ -191,6 +191,12 @@ class Home {
             this.searchWoodsTimer = window.setTimeout(this.searchWoodsTimeout.bind(this), 
             this.userData.playerData.lastWoodsSearch - Date.now()  + 320000);
 
+            this.changeSearchWoodsButton();
+        }
+    }
+
+    changeSearchWoodsButton() {
+        if (this.userData.playerData.isSearchingWoods) {
             let button = document.getElementById("searchWoodsBtn");
             button.className = "searchingWoodsButton";
             let text = document.createTextNode("SEARCHING WOODS...");
@@ -260,6 +266,7 @@ class Home {
         this.selectedInviteCrafts = undefined;
         this.lastSelectedInvite = undefined;
         this.setupMenuOptions(false);
+        this.changeSearchWoodsButton();
     }
 
     draw(ctx) {

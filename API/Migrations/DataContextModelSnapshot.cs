@@ -127,6 +127,12 @@ namespace API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Bark")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("BeerCan")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("BlackPaintCircle")
                         .HasColumnType("INTEGER");
 
@@ -151,6 +157,9 @@ namespace API.Migrations
                     b.Property<int>("Chair")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("CinderBlock")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("Corn")
                         .HasColumnType("INTEGER");
 
@@ -164,6 +173,9 @@ namespace API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Metal")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MetalPipe")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("OrangeLeaf")

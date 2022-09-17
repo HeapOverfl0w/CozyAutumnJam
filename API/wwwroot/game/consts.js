@@ -44,6 +44,10 @@ MATERIAL_SPRITES['overalls'] = document.getElementById('overalls');
 MATERIAL_SPRITES['sword'] = document.getElementById('sword');
 MATERIAL_SPRITES['blackPaintTriangle'] = document.getElementById('blackPaintTriangle');
 MATERIAL_SPRITES['whitePaintTriangle'] = document.getElementById('whitePaintTriangle');
+MATERIAL_SPRITES['cinderBlock'] = document.getElementById('cinderBlock');
+MATERIAL_SPRITES['metalPipe'] = document.getElementById('metalPipe');
+MATERIAL_SPRITES['bark'] = document.getElementById('bark');
+MATERIAL_SPRITES['beerCan'] = document.getElementById('beerCan');
 
 const CHANGE_CANVAS_RESOLTUION = function (width, height) {
     let canvas = document.getElementById('scene');
@@ -86,7 +90,7 @@ const SHOW_CRAFT_INFO = function (craft) {
 
 const SHOW_CREATE_CRAFT_INFO = function () {
     let craftInfo = document.getElementById("craftinfo");
-    craftInfo.innerHTML = '<p>Press E/R to rotate.<br/>Press F to flip horizontally.<br/>Left click to place.</p>';
+    craftInfo.innerHTML = '<p>Hold E/R to rotate.<br/>Press F to flip horizontally.<br/>Left click to place.</p>';
     craftInfo.style.display = "block";
 }
 

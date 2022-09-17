@@ -81,7 +81,11 @@ namespace API.Migrations
                     Rope = table.Column<int>(type: "INTEGER", nullable: false),
                     Overalls = table.Column<int>(type: "INTEGER", nullable: false),
                     Sword = table.Column<int>(type: "INTEGER", nullable: false),
-                    Chair = table.Column<int>(type: "INTEGER", nullable: false)
+                    Chair = table.Column<int>(type: "INTEGER", nullable: false),
+                    Bark = table.Column<int>(type: "INTEGER", nullable: false),
+                    MetalPipe = table.Column<int>(type: "INTEGER", nullable: false),
+                    CinderBlock = table.Column<int>(type: "INTEGER", nullable: false),
+                    BeerCan = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {

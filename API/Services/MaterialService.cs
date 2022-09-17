@@ -42,12 +42,12 @@ namespace API.Services
                     else if (randomNumber > 80)
                         returnData.OrangeLeaf++;
                     //paint 10% chance
-                    else if (randomNumber > 78)
+                    else if (randomNumber > 79)
                         returnData.BlackPaintStripe++;
-                    else if (randomNumber > 76)
-                        returnData.WhitePaintStripe++;
+                    else if (randomNumber > 75)
+                        returnData.CinderBlock++;
                     else if (randomNumber > 71)
-                        returnData.Stick++;
+                        returnData.Bark++;
                     //wood board 10% chance
                     else if (randomNumber > 60)
                         returnData.WoodBoard++;
@@ -72,12 +72,14 @@ namespace API.Services
                     //bottle 3% chance
                     else if (randomNumber > 34)
                         returnData.Bottle++;
-                    //scarf 3% chance
-                    else if (randomNumber > 31)
+                    //scarf 2% chance
+                    else if (randomNumber > 32)
                         returnData.Scarf++;
                     //hoodie 3% chance
-                    else if (randomNumber > 28)
+                    else if (randomNumber > 30)
                         returnData.Hoodie++;
+                    else if (randomNumber > 28)
+                        returnData.MetalPipe++;
                     //skull 2% chance
                     else if (randomNumber > 26)
                         returnData.Skull++;
@@ -120,6 +122,8 @@ namespace API.Services
                         returnData.Sword++;
                     else if (randomNumber > 5)
                         returnData.Chair++;
+                    else if (randomNumber > 4)
+                        returnData.BeerCan++;
                 }                
             }
 

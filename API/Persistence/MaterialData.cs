@@ -38,6 +38,10 @@ namespace API.Persistence
         public int Overalls { get; set; } = 0;
         public int Sword { get; set; } = 0;
         public int Chair { get; set; } = 0;
+        public int Bark { get; set; } = 0;
+        public int MetalPipe { get; set; } = 0;
+        public int CinderBlock { get; set; } = 0;
+        public int BeerCan { get;set; } = 0;
 
         public void AddMaterials(MaterialData fromMaterials)
         {
@@ -76,6 +80,10 @@ namespace API.Persistence
             Overalls += fromMaterials.Overalls;
             Sword += fromMaterials.Sword;
             Chair += fromMaterials.Chair;
+            Bark += fromMaterials.Bark;
+            MetalPipe += fromMaterials.MetalPipe;
+            CinderBlock += fromMaterials.CinderBlock;
+            BeerCan += fromMaterials.BeerCan;
         }
 
         public void RemoveMaterials(MaterialData fromMaterials)
@@ -115,6 +123,10 @@ namespace API.Persistence
             Overalls -= fromMaterials.Overalls;
             Sword -= fromMaterials.Sword;
             Chair -= fromMaterials.Chair;
+            Bark -= fromMaterials.Bark;
+            MetalPipe -= fromMaterials.MetalPipe;
+            CinderBlock -= fromMaterials.CinderBlock;
+            BeerCan -= fromMaterials.BeerCan;
         }
 
         public bool VerifyMaterialRemoval(MaterialData fromMaterials)
@@ -207,6 +219,27 @@ namespace API.Persistence
             if (verify < 0)
                 return false;
             verify = Rope - fromMaterials.Rope;
+            if (verify < 0)
+                return false;
+            verify = Overalls - fromMaterials.Overalls;
+            if (verify < 0)
+                return false;
+            verify = Sword - fromMaterials.Sword;
+            if (verify < 0)
+                return false;
+            verify = Chair - fromMaterials.Chair;
+            if (verify < 0)
+                return false;
+            verify = Bark - fromMaterials.Bark;
+            if (verify < 0)
+                return false;
+            verify = MetalPipe - fromMaterials.MetalPipe;
+            if (verify < 0)
+                return false;
+            verify = CinderBlock - fromMaterials.CinderBlock;
+            if (verify < 0)
+                return false;
+            verify = BeerCan - fromMaterials.BeerCan;
             if (verify < 0)
                 return false;
 

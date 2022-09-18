@@ -7,5 +7,6 @@ namespace API.Persistence
         public MaterialData Materials { get; set; }
         public DateTime LastWoodsSearch { get; set; }
         public bool IsSearchingWoods { get; set; }
+        public int HomeBackdrop { get; set; }
     }
 }

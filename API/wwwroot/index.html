@@ -8,6 +8,7 @@
   <body>
     <div style="display:none">
       <img id="homebackdrop" src="./game/rsc/homebackdrop.png" />
+      <img id="homebackdrop1" src="./game/rsc/homebackdrop1.png" />
       <img id="craftbackdrop" src="./game/rsc/craftbackdrop.png" />
       <img id="stick" src="./game/rsc/stick.png" />
       <img id="redLeaf" src="./game/rsc/redLeaf.png" />
@@ -48,6 +49,15 @@
       <img id="metalPipe" src="./game/rsc/metalPipe.png" />
       <img id="bark" src="./game/rsc/bark.png" />
       <img id="beerCan" src="./game/rsc/beerCan.png" />
+      <audio id="hellacioushilltops">
+        <source src="./game/rsc/hellacioushilltops.mp3" type="audio/mp3">
+      </audio>
+      <audio id="click">
+        <source src="./game/rsc/click.wav" type="audio/wav">
+      </audio>
+      <audio id="woodhammer">
+        <source src="./game/rsc/woodhammer.wav" type="audio/wave">
+      </audio>
     </div>
     <!-- The Modal -->
     <div id="myModal" class="modal">
@@ -120,6 +130,7 @@
   </body>
   <script src='./identityagent.js'></script>
   <script src='./lib/vanilla-toast.min.js'></script>
+  <script src="./game/audiohandler.js"></script>
   <script src='./game/vector2d.js'></script>
   <script src="./game/consts.js"></script>
   <script src="./game/client.js"></script>

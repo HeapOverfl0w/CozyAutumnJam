@@ -124,6 +124,8 @@ namespace API.Services
                         returnData.Chair++;
                     else if (randomNumber > 4)
                         returnData.BeerCan++;
+                    else if (randomNumber > 3)
+                        returnData.Barrel++;
                 }                
             }
 

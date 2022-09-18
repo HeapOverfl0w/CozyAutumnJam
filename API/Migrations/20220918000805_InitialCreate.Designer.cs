@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220917013022_InitialCreate")]
+    [Migration("20220918000805_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -130,6 +130,9 @@ namespace API.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Bark")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Barrel")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("BeerCan")
@@ -256,6 +259,9 @@ namespace API.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("HomeBackdrop")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsSearchingWoods")
                         .HasColumnType("INTEGER");

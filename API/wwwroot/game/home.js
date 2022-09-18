@@ -13,7 +13,7 @@ class Home {
         this.searchWoodsTimer = undefined;
 
         this.chatTimer = undefined;
-        this.selectedInviteCrafts = undefined;
+        this.selectedInviteProfile = undefined;
         this.lastSelectedInvite = undefined;
         this.lastReceivedMessage = '';
         this.setupChatTimeout();
@@ -102,7 +102,7 @@ class Home {
             }
         }
 
-        if (!this.selectedInviteCrafts) {
+        if (!this.selectedInviteProfile) {
             let button = document.createElement("button");
             let text = document.createTextNode("LOGOUT");
             button.appendChild(text);
@@ -138,6 +138,13 @@ class Home {
             button.onclick = this.searchWoodsCallback.bind(this);
             navBar.appendChild(button);
 
+            button = document.createElement("button");
+            text = document.createTextNode("CHANGE HOME");
+            button.appendChild(text);
+            button.id = "changeHomeBtn";
+            button.onclick = this.changeHome.bind(this);
+            navBar.appendChild(button);
+
             HIDE_CRAFT_INFO();
             UPDATE_USER_INFO(this.userData);
         } else {
@@ -148,6 +155,15 @@ class Home {
             button.onclick = this.deselectInvites.bind(this);
             navBar.appendChild(button);
         }
+    }
+
+    changeHome() {
+        this.userData.playerData.homeBackdrop++;
+        if (this.userData.playerData.homeBackdrop > 1) {
+            this.userData.playerData.homeBackdrop = 0;
+        }
+
+        this.client.changeBackdrop(this.userData.playerData.homeBackdrop);
     }
 
     searchWoodsCallback() {
@@ -263,7 +279,7 @@ class Home {
             selectedInvites[i].className = "inviteLi";
         }
 
-        this.selectedInviteCrafts = undefined;
+        this.selectedInviteProfile = undefined;
         this.lastSelectedInvite = undefined;
         this.setupMenuOptions(false);
         this.changeSearchWoodsButton();
@@ -271,14 +287,26 @@ class Home {
 
     draw(ctx) {
         if (this.visible) {
-            if (this.selectedInviteCrafts) {
+            if (this.selectedInviteProfile) {
                 //draw backdrop
-                ctx.drawImage(HOME_BACKDROP, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+                if (this.selectedInviteProfile.playerData.homeBackdrop === 0) {
+                    ctx.drawImage(HOME_BACKDROP, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+                } else {
+                    ctx.drawImage(HOME_BACKDROP1, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+                }
 
-                for (let i = 0; i < this.selectedInviteCrafts.length; i++) {
-                    let craft = this.selectedInviteCrafts[i];
+                for (let i = 0; i < this.selectedInviteProfile.crafts.length; i++) {
+                    let craft = this.selectedInviteProfile.crafts[i];
                     if (craft.placedX > -5000 && craft.placedY > -5000) {
-                        ctx.drawImage(craft.image, craft.placedX, craft.placedY);
+                        if (craft.placedY > 180) {
+                            ctx.drawImage(craft.image, craft.placedX, craft.placedY);
+                        } else {
+                            ctx.save();
+                            ctx.translate(craft.placedX, craft.placedY);
+                            ctx.scale(0.75, 0.75);
+                            ctx.drawImage(craft.image, 0, 0);
+                            ctx.restore();
+                        }
                     }
                 }
             } else {
@@ -286,12 +314,24 @@ class Home {
 
                 if (!selectedInvite) {
                     //draw backdrop
-                    ctx.drawImage(HOME_BACKDROP, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+                    if (this.userData.playerData.homeBackdrop === 0) {
+                        ctx.drawImage(HOME_BACKDROP, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+                    } else {
+                        ctx.drawImage(HOME_BACKDROP1, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+                    }
 
                     for (let i = 0; i < this.userData.crafts.length; i++) {
                         let craft = this.userData.crafts[i];
                         if (craft.placedX > -5000 && craft.placedY > -5000) {
-                            ctx.drawImage(craft.image, craft.placedX, craft.placedY);
+                            if (craft.placedY > 180) {
+                                ctx.drawImage(craft.image, craft.placedX, craft.placedY);
+                            } else {
+                                ctx.save();
+                                ctx.translate(craft.placedX, craft.placedY);
+                                ctx.scale(0.75, 0.75);
+                                ctx.drawImage(craft.image, 0, 0);
+                                ctx.restore();
+                            }
                         }
                     }
                 } else if (this.lastSelectedInvite != selectedInvite) {
@@ -300,7 +340,7 @@ class Home {
                     .then(response => response.json())
                     .then((data) => {
                         SET_IMAGES_ON_USER_DATA(data);
-                        this.selectedInviteCrafts = data.crafts;
+                        this.selectedInviteProfile = data;
                         this.setupMenuOptions(false);
                     })
                 }

@@ -85,7 +85,8 @@ namespace API.Migrations
                     Bark = table.Column<int>(type: "INTEGER", nullable: false),
                     MetalPipe = table.Column<int>(type: "INTEGER", nullable: false),
                     CinderBlock = table.Column<int>(type: "INTEGER", nullable: false),
-                    BeerCan = table.Column<int>(type: "INTEGER", nullable: false)
+                    BeerCan = table.Column<int>(type: "INTEGER", nullable: false),
+                    Barrel = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -121,7 +122,8 @@ namespace API.Migrations
                     Money = table.Column<int>(type: "INTEGER", nullable: false),
                     MaterialsId = table.Column<Guid>(type: "TEXT", nullable: true),
                     LastWoodsSearch = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    IsSearchingWoods = table.Column<bool>(type: "INTEGER", nullable: false)
+                    IsSearchingWoods = table.Column<bool>(type: "INTEGER", nullable: false),
+                    HomeBackdrop = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {

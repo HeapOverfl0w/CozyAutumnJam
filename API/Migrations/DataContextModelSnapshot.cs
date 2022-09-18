@@ -130,6 +130,9 @@ namespace API.Migrations
                     b.Property<int>("Bark")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("Barrel")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("BeerCan")
                         .HasColumnType("INTEGER");
 
@@ -254,6 +257,9 @@ namespace API.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("HomeBackdrop")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsSearchingWoods")
                         .HasColumnType("INTEGER");

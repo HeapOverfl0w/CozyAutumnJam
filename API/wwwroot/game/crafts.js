@@ -341,14 +341,27 @@ class Crafts {
                 }
             }
         } else {
-            ctx.drawImage(HOME_BACKDROP, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            //draw backdrop
+            if (this.userData.playerData.homeBackdrop === 0) {
+                ctx.drawImage(HOME_BACKDROP, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            } else {
+                ctx.drawImage(HOME_BACKDROP1, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            }
             selectedCraft.placedX = Math.floor(this.currentCanvasMouseLocation.x - CRAFT_CANVAS_WIDTH/2);
             selectedCraft.placedY = Math.floor(this.currentCanvasMouseLocation.y - CRAFT_CANVAS_HEIGHT/2);
 
             for (let i = 0; i < this.userData.crafts.length; i++) {
                 let craft = this.userData.crafts[i];
                 if (craft.placedX > -5000 && craft.placedY > -5000) {
-                    ctx.drawImage(craft.image, craft.placedX, craft.placedY);
+                    if (craft.placedY > 180) {
+                        ctx.drawImage(craft.image, craft.placedX, craft.placedY);
+                    } else {
+                        ctx.save();
+                        ctx.translate(craft.placedX, craft.placedY);
+                        ctx.scale(0.75, 0.75);
+                        ctx.drawImage(craft.image, 0, 0);
+                        ctx.restore();
+                    }
                 }
             }
         }

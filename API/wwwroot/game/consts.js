@@ -5,7 +5,10 @@ const CRAFT_CANVAS_HEIGHT = CANVAS_HEIGHT / 3;
 const BASE_URL = "http://localhost:5000";
 
 //resources
+const AUDIO_HANDLER = new AudioHandler();
+
 const HOME_BACKDROP = document.getElementById('homebackdrop');
+const HOME_BACKDROP1 = document.getElementById('homebackdrop1');
 const CRAFT_BACKDROP = document.getElementById('craftbackdrop');
 
 const MATERIAL_SPRITES = {};

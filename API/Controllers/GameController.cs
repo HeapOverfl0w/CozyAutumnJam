@@ -54,6 +54,19 @@ namespace API.Controllers
         }
 
         [Authorize]
+        [HttpPut("backdrop")]
+        public async Task<ActionResult<UserDtoNoToken>> ChangeBackdrop([FromQuery]int backdrop)
+        {
+            var userName = User.FindFirstValue(ClaimTypes.Name);
+            var user = await _dataContext.Users.Include(user => user.PlayerData).FirstOrDefaultAsync(user => user.UserName == userName);
+            user.PlayerData.HomeBackdrop = backdrop;
+
+            _dataContext.SaveChanges();
+            
+            return Ok();
+        }
+
+        [Authorize]
         [HttpGet("money")]
         public async Task<ActionResult<MoneyDto>> GetMoney()
         {

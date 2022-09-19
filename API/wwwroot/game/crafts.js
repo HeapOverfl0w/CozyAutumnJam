@@ -94,6 +94,7 @@ class Crafts {
     }
 
     openModal() {
+        AUDIO_HANDLER.playClick();
         let modal = document.getElementById("modal");
         modal.style.display = "block";
     }
@@ -125,10 +126,12 @@ class Crafts {
         if (this.placeMode) {
             this.placeMode = false;
             let selectedCraft = this.getSelectedCraft();
+            AUDIO_HANDLER.playWoodHammer();
+
             if (selectedCraft) {
                 selectedCraft.placedX = -5000;
                 selectedCraft.placedY = -5000;
-                
+
                 this.client.placeCraft(selectedCraft, 
                     Math.floor(mouseLocation.x - CRAFT_CANVAS_WIDTH/2), 
                     Math.floor(mouseLocation.y - CRAFT_CANVAS_HEIGHT/2))
@@ -157,6 +160,7 @@ class Crafts {
     }
 
     placeCraft() {
+        AUDIO_HANDLER.playClick();
         let selectedCraft = this.getSelectedCraft();
         if (selectedCraft) {
             this.placeMode = true;
@@ -177,6 +181,7 @@ class Crafts {
     }
 
     removeCraft() {
+        AUDIO_HANDLER.playClick();
         let selectedCraft = this.getSelectedCraft();
         if (selectedCraft) {
             this.client.placeCraft(selectedCraft, -5000, -5000)
@@ -204,6 +209,7 @@ class Crafts {
 
     delistCraft() {
         let selectedCraft = this.getSelectedCraft();
+        AUDIO_HANDLER.playClick();
         if (selectedCraft) {
             this.client.toggleCraftForSale(selectedCraft)
                 .then((response) => {
@@ -229,6 +235,7 @@ class Crafts {
     }
 
     sellCraft() {
+        AUDIO_HANDLER.playClick();
         let selectedCraft = this.getSelectedCraft();
         let price = Number.parseFloat(document.getElementById("price").value);
         if (price < 1 || !Number.isInteger(price)) {
@@ -261,6 +268,7 @@ class Crafts {
     }
 
     deleteCraft() {
+        AUDIO_HANDLER.playClick();
         let selectedCraft = this.getSelectedCraft();
         if (selectedCraft) {
             this.client.deleteCraft(selectedCraft)
@@ -342,10 +350,12 @@ class Crafts {
             }
         } else {
             //draw backdrop
-            if (this.userData.playerData.homeBackdrop === 0) {
-                ctx.drawImage(HOME_BACKDROP, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-            } else {
+            if (this.userData.playerData.homeBackdrop === 1) {
                 ctx.drawImage(HOME_BACKDROP1, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            } else if (this.userData.playerData.homeBackdrop === 2){
+                ctx.drawImage(HOME_BACKDROP2, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            } else {
+                ctx.drawImage(HOME_BACKDROP, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
             }
             selectedCraft.placedX = Math.floor(this.currentCanvasMouseLocation.x - CRAFT_CANVAS_WIDTH/2);
             selectedCraft.placedY = Math.floor(this.currentCanvasMouseLocation.y - CRAFT_CANVAS_HEIGHT/2);

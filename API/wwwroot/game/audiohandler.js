@@ -1,9 +1,12 @@
 class AudioHandler {
     constructor() {
         const volume = 0.2;
-        const musicVolume = 0.3;
+        const musicVolume = 0.1;
         this.music = document.getElementById("hellacioushilltops");
         this.music.volume = musicVolume;
+
+        this.music1 = document.getElementById("mediocremall");
+        this.music1.volume = musicVolume;
 
         this.click = document.getElementById("click");
         this.click.volume = volume;
@@ -11,18 +14,32 @@ class AudioHandler {
         this.woodhammer = document.getElementById("woodhammer");
         this.woodhammer.volume = volume;
 
-        this.musicList = [this.music];
+        this.musicList = [this.music, this.music1];
         this.currentSong = 0;
-        this.muted = window.localStorage.getItem('mute') ? true : false;
+        this.muted = true
+
+        if (!this.muted) {
+            this.toggleMute();
+        }
+    }
+
+    startup() {
+        if (!this.muted) {
+            this.playAndLoopMusic();
+        }
     }
 
     toggleMute() {
         this.muted = !this.muted;
-        window.localStorage.setItem('mute', this.muted);
         document.querySelectorAll("audio").forEach( (elem) => 
         {
-            elem.muted = !elem.muted; 
+            elem.muted = this.muted; 
         });
+        if (!this.muted) {
+            this.playAndLoopMusic();
+        } else {
+            this.stopMusic();
+        }
     }
 
     update() {

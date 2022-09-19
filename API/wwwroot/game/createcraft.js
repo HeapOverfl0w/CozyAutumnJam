@@ -67,6 +67,7 @@ class CreateCraft {
     }
 
     undo() {
+        AUDIO_HANDLER.playClick();
         if (this.placedMaterials.length > 0) {
             let lastMaterial = this.placedMaterials.pop();
             this.materials.find(material => material.key === lastMaterial.key).count++;
@@ -76,6 +77,7 @@ class CreateCraft {
     }
 
     openModal() {
+        AUDIO_HANDLER.playClick();
         let modal = document.getElementById("modal");
         modal.style.display = "block";
     }
@@ -117,6 +119,7 @@ class CreateCraft {
     }
 
     submitCraft() {
+        AUDIO_HANDLER.playClick();
         let name = document.getElementById('name').value;
         if (!name) {
             vt.error("Name must have a value.");
@@ -205,6 +208,7 @@ class CreateCraft {
     onMouseClick(mouseLocation) {
         let selectedMaterial = this.getSelectedMaterial();
         if (selectedMaterial) {
+            AUDIO_HANDLER.playWoodHammer();
             //let selectedSprite = MATERIAL_SPRITES[selectedMaterial.key];
             this.placedMaterials.push({
                 name : selectedMaterial.name,

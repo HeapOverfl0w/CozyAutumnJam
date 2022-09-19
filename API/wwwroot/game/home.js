@@ -158,8 +158,9 @@ class Home {
     }
 
     changeHome() {
+        AUDIO_HANDLER.playClick();
         this.userData.playerData.homeBackdrop++;
-        if (this.userData.playerData.homeBackdrop > 1) {
+        if (this.userData.playerData.homeBackdrop > 2) {
             this.userData.playerData.homeBackdrop = 0;
         }
 
@@ -167,6 +168,7 @@ class Home {
     }
 
     searchWoodsCallback() {
+        AUDIO_HANDLER.playClick();
         if (!this.userData.playerData.isSearchingWoods) {
             if (this.calculateMaterialCount() <= 500) {
                 this.client.searchWoods()
@@ -192,6 +194,7 @@ class Home {
     }
 
     createCraft() {
+        AUDIO_HANDLER.playClick();
         if (this.userData.crafts.length <= 30) {
             this.createCraftCallback();
         } else {
@@ -252,6 +255,7 @@ class Home {
             let input = document.getElementById("chatbox");
             let textInput = input.value;
             if (textInput) {
+                AUDIO_HANDLER.playClick();
                 if (textInput.toUpperCase() === "/INVITE") {
                     this.client.sendChat(`* ${this.userData.userName} invites everyone to see their home. *`);
                 } else {
@@ -263,7 +267,6 @@ class Home {
     }
 
     getSelectedInvite() {
-        //get selected material
         let selectedInvites = document.getElementsByClassName("selectedInviteLi");
         if (selectedInvites.length > 0) {
             let userToVisit = selectedInvites[0].firstChild.nodeValue.split(" ")[1];
@@ -289,10 +292,12 @@ class Home {
         if (this.visible) {
             if (this.selectedInviteProfile) {
                 //draw backdrop
-                if (this.selectedInviteProfile.playerData.homeBackdrop === 0) {
-                    ctx.drawImage(HOME_BACKDROP, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-                } else {
+                if (this.selectedInviteProfile.playerData.homeBackdrop === 1) {
                     ctx.drawImage(HOME_BACKDROP1, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+                } else if (this.selectedInviteProfile.playerData.homeBackdrop === 2){
+                    ctx.drawImage(HOME_BACKDROP2, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+                } else {
+                    ctx.drawImage(HOME_BACKDROP, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
                 }
 
                 for (let i = 0; i < this.selectedInviteProfile.crafts.length; i++) {
@@ -314,10 +319,12 @@ class Home {
 
                 if (!selectedInvite) {
                     //draw backdrop
-                    if (this.userData.playerData.homeBackdrop === 0) {
-                        ctx.drawImage(HOME_BACKDROP, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-                    } else {
+                    if (this.userData.playerData.homeBackdrop === 1) {
                         ctx.drawImage(HOME_BACKDROP1, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+                    } else if (this.userData.playerData.homeBackdrop === 2) {
+                        ctx.drawImage(HOME_BACKDROP2, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+                    } else {
+                        ctx.drawImage(HOME_BACKDROP, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
                     }
 
                     for (let i = 0; i < this.userData.crafts.length; i++) {

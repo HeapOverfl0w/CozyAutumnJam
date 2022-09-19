@@ -176,8 +176,14 @@ button:hover {
 
 #userinfo {
   position: absolute;
-  right: 10px;
+  right: 60px;
   top: 15px;
   color: #FFFEEC;
   direction: rtl;
+}
+
+#muteButton {
+  position: absolute;
+  right: 10px;
+  top: 0px;
 }

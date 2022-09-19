@@ -15,6 +15,7 @@ class Main {
     }
 
     craftsCallback() {
+        AUDIO_HANDLER.playClick();
         this.home.setVisible(false);
         this.crafts.setVisible(true);
         this.buy.setVisible(false);
@@ -23,6 +24,7 @@ class Main {
     }
 
     buyCallback() {
+        AUDIO_HANDLER.playClick();
         this.home.setVisible(false);
         this.crafts.setVisible(false);
         this.buy.setVisible(true);
@@ -31,6 +33,7 @@ class Main {
     }
 
     homeCallback() {
+        AUDIO_HANDLER.playClick();
         this.home.setVisible(true);
         this.crafts.setVisible(false);
         this.buy.setVisible(false);
@@ -39,6 +42,7 @@ class Main {
     }
 
     placeCraftCallback() {
+        AUDIO_HANDLER.playClick();
         this.home.setVisible(true);
         this.crafts.setVisible(false);
         this.buy.setVisible(false);
@@ -47,6 +51,7 @@ class Main {
     }
 
     createCraftCallback() {
+        AUDIO_HANDLER.playClick();
         this.home.setVisible(false);
         this.crafts.setVisible(false);
         this.buy.setVisible(false);
@@ -79,6 +84,9 @@ class Main {
     }
 
     draw(ctx) {
+        if (AUDIO_HANDLER) {
+            AUDIO_HANDLER.update();
+        }
         this.activePage.draw(ctx);
     }
 }

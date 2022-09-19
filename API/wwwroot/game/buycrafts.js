@@ -67,11 +67,13 @@ class BuyCrafts {
     }
 
     previousPage() {
+        AUDIO_HANDLER.playClick();
         this.page--;
         this.setupMenuOptions();
     }
 
     nextPage() {
+        AUDIO_HANDLER.playClick();
         this.page++;
         this.setupMenuOptions();
     }
@@ -130,6 +132,7 @@ class BuyCrafts {
     }
 
     buy() {
+        AUDIO_HANDLER.playClick();
         let selectedCraft = this.getSelectedCraft();
         if (selectedCraft && 
             selectedCraft.price <= this.userData.playerData.money &&

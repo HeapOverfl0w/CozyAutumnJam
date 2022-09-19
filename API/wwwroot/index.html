@@ -9,6 +9,7 @@
     <div style="display:none">
       <img id="homebackdrop" src="./game/rsc/homebackdrop.png" />
       <img id="homebackdrop1" src="./game/rsc/homebackdrop1.png" />
+      <img id="homebackdrop2" src="./game/rsc/homebackdrop2.png" />
       <img id="craftbackdrop" src="./game/rsc/craftbackdrop.png" />
       <img id="stick" src="./game/rsc/stick.png" />
       <img id="redLeaf" src="./game/rsc/redLeaf.png" />
@@ -49,14 +50,17 @@
       <img id="metalPipe" src="./game/rsc/metalPipe.png" />
       <img id="bark" src="./game/rsc/bark.png" />
       <img id="beerCan" src="./game/rsc/beerCan.png" />
-      <audio id="hellacioushilltops">
+      <audio id="hellacioushilltops" muted="true">
         <source src="./game/rsc/hellacioushilltops.mp3" type="audio/mp3">
       </audio>
-      <audio id="click">
+      <audio id="mediocremall" muted="true">
+        <source src="./game/rsc/mediocremall.mp3" type="audio/mp3">
+      </audio>
+      <audio id="click" muted="true">
         <source src="./game/rsc/click.wav" type="audio/wav">
       </audio>
-      <audio id="woodhammer">
-        <source src="./game/rsc/woodhammer.wav" type="audio/wave">
+      <audio id="woodhammer" muted="true">
+        <source src="./game/rsc/woodhammer.wav" type="audio/wav">
       </audio>
     </div>
     <!-- The Modal -->
@@ -76,7 +80,7 @@
           </form>
           <div class="text">
             <!--<p style="margin-top: 1rem;"><span>Forgot Login?</span></p>-->
-            <p style="margin-bottom: 1rem;">Don't have an account?  <span id="regBtn">Sign Up</span></p>
+            <p style="margin-bottom: 1rem;color:white">Don't have an account?  <span id="regBtn">Sign Up</span></p>
           </div>
         </div>
         <div id="regForm" class="regForm">
@@ -96,6 +100,7 @@
       </div>
       <div id="userinfo">
       </div>
+      <button id="muteButton">&#9835;</button>
       <div id="craftinfo">
       </div>
       <table>
@@ -155,6 +160,7 @@
     var extraModal = document.getElementById("modal");
     extraModal.style.display = "none";
     cancelButton.onclick = function () {
+      AUDIO_HANDLER.playClick();
       let extraModal = document.getElementById("modal");
       extraModal.style.display = "none";
     }

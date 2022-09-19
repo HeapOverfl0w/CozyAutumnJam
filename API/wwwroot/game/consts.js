@@ -5,10 +5,20 @@ const CRAFT_CANVAS_HEIGHT = CANVAS_HEIGHT / 3;
 const BASE_URL = "http://localhost:5000";
 
 //resources
-const AUDIO_HANDLER = new AudioHandler();
+var AUDIO_HANDLER = undefined;
+
+window.onload = function () {
+    AUDIO_HANDLER = new AudioHandler();
+    AUDIO_HANDLER.startup();
+    let muteButton = document.getElementById("muteButton");
+    muteButton.onclick = () => {
+        AUDIO_HANDLER.toggleMute();
+    };
+}
 
 const HOME_BACKDROP = document.getElementById('homebackdrop');
 const HOME_BACKDROP1 = document.getElementById('homebackdrop1');
+const HOME_BACKDROP2 = document.getElementById('homebackdrop2');
 const CRAFT_BACKDROP = document.getElementById('craftbackdrop');
 
 const MATERIAL_SPRITES = {};

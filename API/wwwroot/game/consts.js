@@ -63,6 +63,7 @@ MATERIAL_SPRITES['cinderBlock'] = document.getElementById('cinderBlock');
 MATERIAL_SPRITES['metalPipe'] = document.getElementById('metalPipe');
 MATERIAL_SPRITES['bark'] = document.getElementById('bark');
 MATERIAL_SPRITES['beerCan'] = document.getElementById('beerCan');
+MATERIAL_SPRITES['barrel'] = document.getElementById('barrel');
 MATERIAL_SPRITES['torch'] = document.getElementById('torch');
 MATERIAL_SPRITES['chain'] = document.getElementById('chain');
 MATERIAL_SPRITES['unexplodedOrdnance'] = document.getElementById('unexplodedOrdnance');

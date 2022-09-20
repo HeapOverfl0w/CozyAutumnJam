@@ -363,7 +363,7 @@ class Crafts {
             for (let i = 0; i < this.userData.crafts.length; i++) {
                 let craft = this.userData.crafts[i];
                 if (craft.placedX > -5000 && craft.placedY > -5000) {
-                    if (craft.placedY > 180) {
+                    if (craft.placedY > PLACEMENT_SCALE_THRESHOLD) {
                         ctx.drawImage(craft.image, craft.placedX, craft.placedY);
                     } else {
                         ctx.save();

@@ -43,7 +43,7 @@ class Client {
         })
         .catch(error => {
             console.error(error);
-            //vt.error(error.message);
+            vt.error(error.message);
         });
     }
 
@@ -54,7 +54,7 @@ class Client {
         })
         .catch(error => {
             console.error(error);
-            vt.error(error.message);
+            //vt.error(error.message);
         });
     }
 

@@ -15,6 +15,7 @@ class Home {
         this.chatTimer = undefined;
         this.selectedInviteProfile = undefined;
         this.lastSelectedInvite = undefined;
+        this.lastMouseOverCraft = undefined;
         this.lastReceivedMessage = '';
         this.setupChatTimeout();
     }
@@ -249,6 +250,47 @@ class Home {
         });
     }
 
+    onMouseOver(mouseLocation) {
+        if (this.selectedInviteProfile) {
+            let width = CRAFT_CANVAS_WIDTH;
+            let height = CRAFT_CANVAS_HEIGHT;
+            if (mouseLocation <= PLACEMENT_SCALE_THRESHOLD) {
+                width = Math.floor(CRAFT_CANVAS_WIDTH * 0.75);
+                height = Math.floor(CRAFT_CANVAS_HEIGHT * 0.75);
+            }
+
+            let craftClosestToMouse = undefined;
+            let mouseToCraftDistance = 1000;
+            for (let i = 0; i < this.selectedInviteProfile.crafts.length; i++) {
+                let craft = this.selectedInviteProfile.crafts[i];
+
+                
+                if (craft.placedX < mouseLocation.x && mouseLocation.x < craft.placedX + width && 
+                    craft.placedY < mouseLocation.y && mouseLocation.y < craft.placedY + height) {
+                        let distance = Math.sqrt(Math.pow((craft.placedX + width/2) - mouseLocation.x, 2) + Math.pow((craft.placedY + height/2) - mouseLocation.y, 2));
+                        if (distance < mouseToCraftDistance) {
+                            mouseToCraftDistance = distance;
+                            craftClosestToMouse = craft;
+                        }
+                    }
+                    
+            }
+
+            if (craftClosestToMouse){
+                if (craftClosestToMouse != this.lastMouseOverCraft){
+                    this.lastMouseOverCraft = craftClosestToMouse;
+                    SHOW_CRAFT_INFO(craftClosestToMouse);
+                }
+                return;
+            } 
+
+            if (this.lastMouseOverCraft) {
+                this.lastMouseOverCraft = undefined;
+                HIDE_CRAFT_INFO();
+            }            
+        }
+    }
+
     onKeyUp(keyCode) {
         if (keyCode == 13)
         {
@@ -284,6 +326,8 @@ class Home {
 
         this.selectedInviteProfile = undefined;
         this.lastSelectedInvite = undefined;
+        this.lastMouseOverCraft = undefined;
+        HIDE_CRAFT_INFO();
         this.setupMenuOptions(false);
         this.changeSearchWoodsButton();
     }
@@ -303,7 +347,7 @@ class Home {
                 for (let i = 0; i < this.selectedInviteProfile.crafts.length; i++) {
                     let craft = this.selectedInviteProfile.crafts[i];
                     if (craft.placedX > -5000 && craft.placedY > -5000) {
-                        if (craft.placedY > 180) {
+                        if (craft.placedY > PLACEMENT_SCALE_THRESHOLD) {
                             ctx.drawImage(craft.image, craft.placedX, craft.placedY);
                         } else {
                             ctx.save();
@@ -330,7 +374,7 @@ class Home {
                     for (let i = 0; i < this.userData.crafts.length; i++) {
                         let craft = this.userData.crafts[i];
                         if (craft.placedX > -5000 && craft.placedY > -5000) {
-                            if (craft.placedY > 180) {
+                            if (craft.placedY > PLACEMENT_SCALE_THRESHOLD) {
                                 ctx.drawImage(craft.image, craft.placedX, craft.placedY);
                             } else {
                                 ctx.save();

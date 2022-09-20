@@ -4,6 +4,8 @@ const CRAFT_CANVAS_WIDTH = CANVAS_WIDTH / 3;
 const CRAFT_CANVAS_HEIGHT = CANVAS_HEIGHT / 3;
 const BASE_URL = "http://localhost:5000";
 
+const PLACEMENT_SCALE_THRESHOLD = 180;
+
 //resources
 var AUDIO_HANDLER = undefined;
 

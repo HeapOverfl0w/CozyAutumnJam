@@ -126,6 +126,12 @@ namespace API.Services
                         returnData.BeerCan++;
                     else if (randomNumber > 3)
                         returnData.Barrel++;
+                    else if (randomNumber > 2)
+                        returnData.Chain++;
+                    else if (randomNumber > 1)
+                        returnData.Torch++;
+                    else if (randomNumber > 1)
+                        returnData.UnexplodedOrdnance++;
                 }                
             }
 

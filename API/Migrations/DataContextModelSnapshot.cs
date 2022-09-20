@@ -157,6 +157,9 @@ namespace API.Migrations
                     b.Property<int>("Candle")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("Chain")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("Chair")
                         .HasColumnType("INTEGER");
 
@@ -227,6 +230,12 @@ namespace API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Tire")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Torch")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("UnexplodedOrdnance")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("WhitePaintCircle")

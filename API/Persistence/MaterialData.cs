@@ -43,6 +43,9 @@ namespace API.Persistence
         public int CinderBlock { get; set; } = 0;
         public int BeerCan { get;set; } = 0;
         public int Barrel { get; set; } = 0;
+        public int Chain { get; set; } = 0;
+        public int Torch { get; set; } = 0;
+        public int UnexplodedOrdnance { get; set; } = 0;
 
         public void AddMaterials(MaterialData fromMaterials)
         {
@@ -86,6 +89,9 @@ namespace API.Persistence
             CinderBlock += fromMaterials.CinderBlock;
             BeerCan += fromMaterials.BeerCan;
             Barrel += fromMaterials.Barrel;
+            Chain += fromMaterials.Chain;
+            Torch += fromMaterials.Torch;
+            UnexplodedOrdnance += fromMaterials.UnexplodedOrdnance;
         }
 
         public void RemoveMaterials(MaterialData fromMaterials)
@@ -130,6 +136,9 @@ namespace API.Persistence
             CinderBlock -= fromMaterials.CinderBlock;
             BeerCan -= fromMaterials.BeerCan;
             Barrel -= fromMaterials.Barrel;
+            Chain -= fromMaterials.Chain;
+            Torch -= fromMaterials.Torch;
+            UnexplodedOrdnance -= fromMaterials.UnexplodedOrdnance;
         }
 
         public bool VerifyMaterialRemoval(MaterialData fromMaterials)
@@ -246,6 +255,15 @@ namespace API.Persistence
             if (verify < 0)
                 return false;
             verify = Barrel - fromMaterials.Barrel;
+            if (verify < 0)
+                return false;
+            verify = Chain - fromMaterials.Chain;
+            if (verify < 0)
+                return false;
+            verify = Torch - fromMaterials.Torch;
+            if (verify < 0)
+                return false;
+            verify = UnexplodedOrdnance - fromMaterials.UnexplodedOrdnance;
             if (verify < 0)
                 return false;
 

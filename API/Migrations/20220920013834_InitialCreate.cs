@@ -86,7 +86,10 @@ namespace API.Migrations
                     MetalPipe = table.Column<int>(type: "INTEGER", nullable: false),
                     CinderBlock = table.Column<int>(type: "INTEGER", nullable: false),
                     BeerCan = table.Column<int>(type: "INTEGER", nullable: false),
-                    Barrel = table.Column<int>(type: "INTEGER", nullable: false)
+                    Barrel = table.Column<int>(type: "INTEGER", nullable: false),
+                    Chain = table.Column<int>(type: "INTEGER", nullable: false),
+                    Torch = table.Column<int>(type: "INTEGER", nullable: false),
+                    UnexplodedOrdnance = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {

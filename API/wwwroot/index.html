@@ -50,6 +50,9 @@
       <img id="metalPipe" src="./game/rsc/metalPipe.png" />
       <img id="bark" src="./game/rsc/bark.png" />
       <img id="beerCan" src="./game/rsc/beerCan.png" />
+      <img id="torch" src="./game/rsc/torch.png" />
+      <img id="chain" src="./game/rsc/chain.png" />
+      <img id="unexplodedOrdnance" src="./game/rsc/unexplodedOrdnance.png" />
       <audio id="hellacioushilltops" muted="true">
         <source src="./game/rsc/hellacioushilltops.mp3" type="audio/mp3">
       </audio>
@@ -67,7 +70,6 @@
     <div id="myModal" class="modal">
       <!-- Modal content -->
       <div class="modal-content">
-        <h2 class="title">Colorfest!</h2>
         <img class="gameArt" src="banner.png"/>
         <div class="logoCircle">
           <img class="logo" src="A_ZX2K.png"/>
@@ -89,7 +91,7 @@
             <input id="regPassword" type="password" placeholder="PASSWORD" maxlength="20"/>
             <div class="row">
               <button id="sbmtBtn" type="submit" class="register">SUBMIT</button>
-              <button id="cnclBtn" type="buton" class="register">CANCEL</button>
+              <button id="cnclBtn" type="button" class="register">CANCEL</button>
             </div>
           </form>
         </div>
@@ -250,6 +252,7 @@
     }
 
     var logoutCallback = function() {
+      document.body.style.backgroundColor = "#DE6C1C";
       window.clearInterval(gameTimer);
       menu.home.disconnectFromChat();
       identity.clearToken();
@@ -269,6 +272,7 @@
     var gameTimer;
 
     var startGame = function() {     
+      document.body.style.backgroundColor = "#1C2623";
       let menulist = document.getElementById("menulist");
       menulist.style.height = (window.innerHeight - 140) + "px";
       menulist.scrollTop = menulist.scrollHeight;

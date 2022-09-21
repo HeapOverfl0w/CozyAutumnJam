@@ -155,6 +155,13 @@ button:hover {
   background-color: #394F48;
   color: #FFFEEC;
 }
+.modal-sub-content-confirm {
+  border-radius: 10px;
+  border: 1px solid #FFFEEC;
+  padding: 20px;
+  background-color: #394F48;
+  color: #FFFEEC;
+}
 
 #chatbox {
   margin-left: 5px;

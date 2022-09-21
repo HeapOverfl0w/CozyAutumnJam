@@ -16,7 +16,7 @@ class Crafts {
 
         if (this.visible) {
             this.setupMenuOptions();
-            this.setupModal();
+            this.setupModals();
             CHANGE_CANVAS_RESOLTUION(CRAFT_CANVAS_WIDTH, CRAFT_CANVAS_HEIGHT);
             HIDE_CHAT_INPUT();
             HIDE_UNDO_BUTTON();
@@ -85,7 +85,7 @@ class Crafts {
             text = document.createTextNode("DELETE");
             button.appendChild(text);
             button.id = "deleteBtn";
-            button.onclick = this.deleteCraft.bind(this);
+            button.onclick = this.openConfirmModal.bind(this);
             navBar.appendChild(button);
 
             SHOW_CRAFT_INFO(craft);
@@ -99,12 +99,23 @@ class Crafts {
         modal.style.display = "block";
     }
 
+    openConfirmModal() {
+        AUDIO_HANDLER.playClick();
+        let modal = document.getElementById("confirmModal");
+        modal.style.display = "block";
+    }
+
     closeModal() {
         let modal = document.getElementById("modal");
         modal.style.display = "none";
     }
 
-    setupModal() {
+    closeConfirmModal() {
+        let modal = document.getElementById("confirmModal");
+        modal.style.display = "none";
+    }
+
+    setupModals() {
         let button = document.getElementById("okButton");
         button.onclick = this.sellCraft.bind(this);
         let modalContents = document.getElementsByClassName("modal-sub-content");
@@ -116,6 +127,10 @@ class Crafts {
         let priceInput = document.getElementById("price-input");
         priceInput.style.display = "block";
         document.getElementById("price").value = 10;
+
+        //confirm dialog
+        button = document.getElementById("yesButton");
+        button.onclick = this.deleteCraft.bind(this);
     }
 
     onMouseOver(mouseLocation) {
@@ -286,6 +301,7 @@ class Crafts {
                     } else {
                         this.userData.crafts.splice(this.userData.crafts.indexOf(selectedCraft), 1);
                         this.setupMenuOptions();
+                        this.closeConfirmModal();
                     }
                 })
         }

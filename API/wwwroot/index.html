@@ -135,6 +135,17 @@
         </div>        
       </div>
     </div>
+    <div class="modal" id="confirmModal">
+      <div class="modal-content">
+        <div class="modal-sub-content-confirm">
+          <p>Are you sure?</p>
+        </div>
+        <div class="row">
+          <button id="yesButton">Yes</button>
+          <button id="noButton">No</button>
+        </div>  
+      </div>
+    </div>
   </body>
   <script src='./identityagent.js'></script>
   <script src='./lib/vanilla-toast.min.js'></script>
@@ -160,12 +171,20 @@
 
 
     var cancelButton = document.getElementById("cancelButton");
+    var noButton = document.getElementById("noButton");
     var extraModal = document.getElementById("modal");
     extraModal.style.display = "none";
+    var confirmModal = document.getElementById("confirmModal");
+    confirmModal.style.display = "none";
     cancelButton.onclick = function () {
       AUDIO_HANDLER.playClick();
       let extraModal = document.getElementById("modal");
       extraModal.style.display = "none";
+    }
+    noButton.onclick = function () {
+      AUDIO_HANDLER.playClick();
+      let confirmModal = document.getElementById("confirmModal");
+      confirmModal.style.display = "none";
     }
 
     HIDE_CRAFT_INFO();
